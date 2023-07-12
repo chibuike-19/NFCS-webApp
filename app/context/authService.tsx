@@ -4,7 +4,7 @@ import { auth } from "./firebase";
 import { useContext } from "react";
 import React from "react";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   GoogleAuthProvider,
   signOut,
@@ -34,6 +34,7 @@ type ValueProp = {
     email: string,
     password: string
   ) => Promise<User | undefined>;
+  userEmailRef: React.RefObject<HTMLInputElement> | null;
 };
 
 const AuthContext = React.createContext({} as ValueProp)
@@ -45,6 +46,7 @@ export const AuthService =  ({children}: ContextProp) => {
   const router = useRouter()
     const [user, setUser] = useState<User | null>(null)
     const [setCurrentUser, cuurentUser] = useState<User | null>(null)
+    const userEmailRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         const unsubcribe = auth.onAuthStateChanged((user) => {
@@ -58,7 +60,13 @@ export const AuthService =  ({children}: ContextProp) => {
     try {
       const userCred = await signInWithPopup(auth, Provider);
       // setUser(userCred.user);
-      router.push('/user/dashboard')
+      userCred.user.getIdTokenResult(true).then((idTokenResult) => {
+        if (idTokenResult.claims.moderator) {
+          router.push("/admin/dashboard");
+        } else {
+          router.push("/user/dashboard");
+        }
+      });
       console.log(userCred)
       return userCred;
     } catch (error) {
@@ -70,15 +78,27 @@ export const AuthService =  ({children}: ContextProp) => {
   const loginWithEmailAndPassword = async (email: string, password: string) => {
     try {
       const res = await signInWithEmailAndPassword(auth, email, password);
-     router.push("/user/dashboard")
-     console.log(res)
+      res.user.getIdTokenResult(true).then((idTokenResult) => {
+        if(idTokenResult.claims.moderator){
+          router.push("/admin/dashboard");
+        }else {
+          router.push("/user/dashboard");
+        }
+      })
+     console.log((await res.user.getIdTokenResult(true)).claims)
       return res.user;
     } catch (error) {}
   }
   const createNewUserWithEmailAndPassword = async (email: string, password: string) => {
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password);
-      router.push("/user/dashboard");
+      res.user.getIdTokenResult(true).then((idTokenResult) => {
+        if (idTokenResult.claims.moderator) {
+          router.push("/admin/dashboard");
+        } else {
+          router.push("/user/dashboard");
+        }
+      });
       console.log(res);
       return res.user;
     } catch (error) {}
@@ -88,7 +108,7 @@ export const AuthService =  ({children}: ContextProp) => {
   }
 
 //ad
-  return <AuthContext.Provider value={{user, setUser, loginWithEmailAndPassword, loginWithGoogle, logOut, createNewUserWithEmailAndPassword}}>{children}</AuthContext.Provider>
+  return <AuthContext.Provider value={{user, userEmailRef,  setUser, loginWithEmailAndPassword, loginWithGoogle, logOut, createNewUserWithEmailAndPassword}}>{children}</AuthContext.Provider>
 };
 
 export const useAuth = () => {
