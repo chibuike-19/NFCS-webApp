@@ -14,7 +14,6 @@ const AdminDashboard = () => {
        const email = data.get('email')?.valueOf()
        if (typeof(email) !== 'string')return
         // const response = await grantModerator(email, user)
-        // console.log(response)
     }
 
       const signOut = () => {
