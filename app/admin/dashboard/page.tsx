@@ -9,13 +9,14 @@ const AdminDashboard = () => {
     const router = useRouter()
     const {user, logOut, userEmailRef} = useAuth()
 
-
+    // Assign admin role to a user
     const addAdmin = async(data: FormData) => {
        const email = data.get('email')?.valueOf()
        if (typeof(email) !== 'string')return
         // const response = await grantModerator(email, user)
     }
 
+      // Logs out user
       const signOut = () => {
         logOut;
         router.push("/");

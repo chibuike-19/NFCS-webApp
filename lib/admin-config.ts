@@ -8,15 +8,19 @@ export const grantModerator = async(email: string, user: User | null) => {
     
     customInitApp()
 
-    const userToBeAuthenticated = await auth().getUserByEmail(email);
+    // Get email of the user 
+    const userToBeAuthorized = await auth().getUserByEmail(email);
  
     user?.getIdTokenResult(true).then((idTokenResult) => {
+      // checks if the current user is an admin as only admins can create new admins
         if(idTokenResult.claims.moderator){
+          // checks if user with the email is already an admin
              if (
-               userToBeAuthenticated.customClaims &&
-               userToBeAuthenticated.customClaims.moderator === true
+               userToBeAuthorized.customClaims &&
+               userToBeAuthorized.customClaims.moderator === true
              )return;
-             auth().setCustomUserClaims(userToBeAuthenticated.uid, {
+            //  if not assign a moderator role as a new claim to user
+             auth().setCustomUserClaims(userToBeAuthorized.uid, {
                moderator: true,
              });
              return {
@@ -24,7 +28,7 @@ export const grantModerator = async(email: string, user: User | null) => {
              }
         }else{
             return {
-                result: `Request not authorized.User must be an admin `
+                result: `Request not authorized. User must be an admin `
             }
         }
     })
