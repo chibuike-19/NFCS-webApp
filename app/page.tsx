@@ -8,9 +8,9 @@ export default async function Home() {
   // await grantModerator();
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="flex min-h-screen bg-red-900 flex-col items-center justify-between p-24">
       <div>
-        <h1>Welcome!</h1>
+        <h1 className="text-red-500">Welcome!</h1>
         <Link href="/login">Login</Link>
         <Link href="/register">Register</Link>
       </div>

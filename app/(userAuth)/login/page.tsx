@@ -1,5 +1,7 @@
 "use client";
+
 import { useAuth } from "../../context/authService";
+import {FcGoogle} from "react-icons/fc"
 import Link from "next/link";
 import { useRef } from "react";
 
@@ -20,18 +22,58 @@ const Login = () => {
     };
 
   return (
-    <div>
-      <form action="" onSubmit={onFormSubmit}>
-        <p>Fill Your Info to register</p>
-        <input type="email" ref={userEmailRef} />
-        <input type="password" ref={userPasswordRef} />
-        <input type="submit" onClick={onFormSubmit} />
+    <div className=" ">
+      <form action="" onSubmit={onFormSubmit} className="flex flex-col gap-6">
+        <h1 className="text-3xl text-black font-semibold">Hi! Welcome Back</h1>
+        <div className="flex flex-col gap-2">
+          <label
+            htmlFor=""
+            className="text-left text-xl text-black font-semibold"
+          >
+            Email
+          </label>
+          <input
+            type="email"
+            ref={userEmailRef}
+            className="py-2 px-4 text-black w-[20rem] sm:w-[25rem] md:w-[32rem] rounded-md shadow-xl outline-none"
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <label
+            htmlFor=""
+            className="text-left text-xl text-black font-semibold"
+          >
+            {" "}
+            Password
+          </label>
+          <input
+            type="password"
+            ref={userPasswordRef}
+            className="py-2 px-4 text-black rounded-md shadow-xl outline-none"
+          />
+        </div>
+
+        <input
+          type="submit"
+          value="Login"
+          className="border-2 border-[#56BCFB] bg-[#56BCFB] py-2"
+        />
+        <span className="text-black">OR</span>
       </form>
-      <button onClick={loginWithGoogle} className="border-2 border-red-700 p-3">
-        Log in with google
-      </button>
-      <div>
-        <p>Yet to Login? </p> <Link href="/register">Register</Link>
+      <div className="flex justify-center mt-4">
+        <button
+          onClick={loginWithGoogle}
+          className="border-2 border-red-700 p-3 flex gap-2 items-center"
+        >
+          <span>{<FcGoogle />}</span>
+          <span className="text-black">Log in with google</span>
+        </button>
+      </div>
+      <div className="text-left mt-4">
+        <span className="text-black text-lg">Don't have an account? </span>
+        <span className="mr-1 text-[#56BCFB]">
+          <Link href="/register">Sign Up</Link>
+        </span>
       </div>
     </div>
   );
