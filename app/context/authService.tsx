@@ -1,6 +1,7 @@
 'use client'
 
 import { auth } from "./firebase";
+import {updateProfile} from 'firebase/auth'
 import { useContext } from "react";
 import { ValueProp, ContextProp } from "@/types/AuthTypes";
 import React from "react";
@@ -32,6 +33,7 @@ export const AuthService =  ({children}: ContextProp) => {
     const [setCurrentUser, cuurentUser] = useState<User | null>(null)
     const userEmailRef = useRef<HTMLInputElement>(null);
     const userPasswordRef = useRef<HTMLInputElement>(null);
+    const userNameRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
       // Grabs current user object on mount of page
@@ -79,17 +81,24 @@ export const AuthService =  ({children}: ContextProp) => {
   }
   const createNewUserWithEmailAndPassword = async (email: string, password: string) => {
     try {
-      const res = await createUserWithEmailAndPassword(auth, email, password);
-      // checks for type of user i.e either admin or normal user and route to their respective pages
-      res.user.getIdTokenResult(true).then((idTokenResult) => {
-        if (idTokenResult.claims.moderator) {
-          router.push("/admin/dashboard");
-        } else {
-          router.push("/user/dashboard");
-        }
-      });
-      console.log(res);
-      return res.user;
+      await createUserWithEmailAndPassword(auth, email, password).then((result) => {
+        // Add the user's name to firebase
+        updateProfile(result.user, {
+          displayName: userNameRef.current?.value,
+        });
+        // checks for type of user i.e either admin or normal user and route to their respective pages
+        result.user.getIdTokenResult(true).then((idTokenResult) => {
+          if (idTokenResult.claims.moderator) {
+            router.push("/admin/dashboard");
+          } else {
+            router.push("/user/dashboard");
+          }
+        });
+        // console.log(res);
+        // return res.user;
+      })
+      
+      
     } catch (error) {}
   };
 
@@ -97,7 +106,7 @@ export const AuthService =  ({children}: ContextProp) => {
     return signOut(auth);
   }
 
-  return <AuthContext.Provider value={{user, userEmailRef, userPasswordRef, setUser, loginWithEmailAndPassword, loginWithGoogle, logOut, createNewUserWithEmailAndPassword}}>{children}</AuthContext.Provider>
+  return <AuthContext.Provider value={{user, userNameRef, userEmailRef, userPasswordRef, setUser, loginWithEmailAndPassword, loginWithGoogle, logOut, createNewUserWithEmailAndPassword}}>{children}</AuthContext.Provider>
 };
 
 export const useAuth = () => {

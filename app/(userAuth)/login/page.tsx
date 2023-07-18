@@ -56,14 +56,14 @@ const Login = () => {
         <input
           type="submit"
           value="Login"
-          className="border-2 border-[#56BCFB] bg-[#56BCFB] py-2"
+          className="border-2 border-[#56BCFB] cursor-pointer bg-[#56BCFB] py-2"
         />
         <span className="text-black">OR</span>
       </form>
       <div className="flex justify-center mt-4">
         <button
           onClick={loginWithGoogle}
-          className="border-2 border-red-700 p-3 flex gap-2 items-center"
+          className="border-2 cursor-pointer border-red-700 p-3 flex gap-2 items-center"
         >
           <span>{<FcGoogle />}</span>
           <span className="text-black">Log in with google</span>
@@ -71,7 +71,7 @@ const Login = () => {
       </div>
       <div className="text-left mt-4">
         <span className="text-black text-lg">Don't have an account? </span>
-        <span className="mr-1 text-[#56BCFB]">
+        <span className="mr-1 cursor-pointer text-[#56BCFB]">
           <Link href="/register">Sign Up</Link>
         </span>
       </div>

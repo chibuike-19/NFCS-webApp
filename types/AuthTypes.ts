@@ -16,7 +16,9 @@ export type ValueProp = {
   createNewUserWithEmailAndPassword: (
     email: string,
     password: string
-  ) => Promise<User | undefined>;
+  ) => Promise<void>;
+
   userEmailRef: React.RefObject<HTMLInputElement> | null;
   userPasswordRef: React.RefObject<HTMLInputElement> | null;
+  userNameRef: React.RefObject<HTMLInputElement> | null;
 };
