@@ -9,13 +9,14 @@ const UserDashboard = () => {
   const router = useRouter();
 
   const LogOut = () => {
-    logOut
-    router.push('/')
-  }
+    logOut;
+    router.push("/");
+  };
   return (
-  <div>Hello, {user?.displayName}
-  <button onClick={LogOut}>log Out</button>
-  </div>
+    <div>
+      Hello, {user?.displayName}
+      <button onClick={LogOut}>log Out</button>
+    </div>
   );
 };
 export default ProtectedRoute(UserDashboard);

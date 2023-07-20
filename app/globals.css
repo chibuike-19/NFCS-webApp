@@ -16,7 +16,7 @@
   }
 }
 
-body {
+/* body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
@@ -24,4 +24,19 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+} */
+
+.signup {
+  background-image: linear-gradient(
+      to bottom left,
+      #42c2f5bf,
+      rgba(255, 255, 255)
+    ),
+    url("../public//logo.png");
+  width: 100%;
+  height: 280px;
+  text-align: center;
+  color: #fff;
+  background-repeat: no-repeat;
+  background-position: center right;
 }
