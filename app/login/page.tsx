@@ -31,7 +31,7 @@ const Login = () => {
       <button onClick={loginWithGoogle} className="border-2 border-red-700 p-3">
         Log in with google
       </button>
-      <Link href="/forgetPassword">Forget Password</Link>
+      
       <div>
         <p>Yet to Login? </p> <Link href="/register">Register</Link>
       </div>
