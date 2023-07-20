@@ -7,6 +7,7 @@ import { ValueProp, ContextProp } from "@/types/AuthTypes";
 import React from "react";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
+import { ToastMessages } from "../component/toastMessages";
 import {
   GoogleAuthProvider,
   signOut,
@@ -34,6 +35,7 @@ export const AuthService =  ({children}: ContextProp) => {
     const userEmailRef = useRef<HTMLInputElement>(null);
     const userPasswordRef = useRef<HTMLInputElement>(null);
     const userNameRef = useRef<HTMLInputElement>(null);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
       // Grabs current user object on mount of page
@@ -67,6 +69,7 @@ export const AuthService =  ({children}: ContextProp) => {
   const loginWithEmailAndPassword = async (email: string, password: string) => {
     try {
       const res = await signInWithEmailAndPassword(auth, email, password);
+       ToastMessages("success", false);
       // checks for type of user i.e either admin or normal user and route to their respective pages
       res.user.getIdTokenResult(true).then((idTokenResult) => {
         if (idTokenResult.claims.moderator) {
@@ -74,10 +77,13 @@ export const AuthService =  ({children}: ContextProp) => {
         } else {
           router.push("/user/dashboard");
         }
-      });
-      console.log((await res.user.getIdTokenResult(true)).claims);
+      })
+      // console.log((await res.user.getIdTokenResult(true)).claims);
       return res.user;
-    } catch (error) {}
+    } catch (error: any) {
+      ToastMessages(error.message, true)
+      console.log(error.message)
+    }
   }
   const createNewUserWithEmailAndPassword = async (email: string, password: string) => {
     try {
@@ -106,7 +112,7 @@ export const AuthService =  ({children}: ContextProp) => {
     return signOut(auth);
   }
 
-  return <AuthContext.Provider value={{user, userNameRef, userEmailRef, userPasswordRef, setUser, loginWithEmailAndPassword, loginWithGoogle, logOut, createNewUserWithEmailAndPassword}}>{children}</AuthContext.Provider>
+  return <AuthContext.Provider value={{user, userNameRef, loading, setLoading, userEmailRef, userPasswordRef, setUser, loginWithEmailAndPassword, loginWithGoogle, logOut, createNewUserWithEmailAndPassword}}>{children}</AuthContext.Provider>
 };
 
 export const useAuth = () => {

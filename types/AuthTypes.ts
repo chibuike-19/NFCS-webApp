@@ -21,4 +21,6 @@ export type ValueProp = {
   userEmailRef: React.RefObject<HTMLInputElement> | null;
   userPasswordRef: React.RefObject<HTMLInputElement> | null;
   userNameRef: React.RefObject<HTMLInputElement> | null;
+  loading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
