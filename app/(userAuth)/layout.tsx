@@ -8,7 +8,7 @@ import { Loader } from "../component/loader";
 import { useAuth } from "../context/authService";
 import Logo from "../../public/logo.png";
 
-export default function RegistrationLayout() {
+export default function RegistrationLayout({children}: any) {
   const router = usePathname();
   const { loading } = useAuth();
   // console.log(router)
@@ -20,7 +20,7 @@ export default function RegistrationLayout() {
         </div>
       ) : (
         <div className="flex justify-around signup md:mx-0 mx-auto min-h-screen items-center">
-          <main>{router == "/login" ? <Login /> : <Register />}</main>
+          <main>{children}</main>
           <div>{/* <Image src={Logo} alt="Nfcs Logo" /> */}</div>
         </div>
       )}

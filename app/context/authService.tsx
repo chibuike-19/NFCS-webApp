@@ -27,6 +27,7 @@ const AuthContext = React.createContext({} as ValueProp)
 
 
 
+
 export const AuthService =  ({children}: ContextProp) => {
 
   const router = useRouter()
