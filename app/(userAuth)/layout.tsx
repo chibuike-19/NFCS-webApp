@@ -9,21 +9,9 @@ import { useAuth } from "../context/authService";
 import Logo from "../../public/logo.png";
 import ForgetPassword from "./forgetPassword/page";
 
-export default function RegistrationLayout({children}: any) {
+export default function RegistrationLayout({ children }: { children: React.ReactNode }) {
   const router = usePathname();
   const { loading } = useAuth();
-
-  let renderComponent: React.ReactNode;
-  switch (router) {
-    case "/login":
-      renderComponent = <Login />;
-      break;
-    case "/forgetPassword":
-      renderComponent = <ForgetPassword />;
-      break;
-    default:
-      renderComponent = <Register />;
-  }
 
   return (
     <>
