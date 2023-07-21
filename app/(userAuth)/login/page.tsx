@@ -2,7 +2,7 @@
 
 import { useAuth } from "../../context/authService";
 import { FcGoogle } from "react-icons/fc";
-import {FiLoader} from 'react-icons/fi'
+import { FiLoader } from "react-icons/fi";
 import Link from "next/link";
 import { ToastMessages } from "@/app/component/toastMessages";
 import { useRef, useState } from "react";
@@ -13,11 +13,10 @@ const Login = () => {
     loginWithGoogle,
     loginWithEmailAndPassword,
     userEmailRef,
-    loading, 
+    loading,
     setLoading,
     userPasswordRef,
   } = useAuth();
-
 
   const onFormSubmit = async (e: any) => {
     e.preventDefault();
@@ -26,13 +25,13 @@ const Login = () => {
       await loginWithEmailAndPassword(
         userEmailRef?.current?.value!,
         userPasswordRef?.current?.value!
-      ).catch(error => console.log(error));
-      
-      ToastMessages('success', false);
+      ).catch((error) => console.log(error));
+
+      ToastMessages("success", false);
       setLoading(false);
     } catch (error: any) {
       setLoading(false);
-      ToastMessages(error.data.message as string, true)
+      ToastMessages(error.data.message as string, true);
       console.log(error.message);
     }
   };
@@ -40,7 +39,9 @@ const Login = () => {
   return (
     <div className=" ">
       {loading ? (
-        <div><FiLoader/></div>
+        <div>
+          <FiLoader />
+        </div>
       ) : (
         <>
           <form
@@ -99,6 +100,9 @@ const Login = () => {
             <span className="text-black text-lg">Don't have an account? </span>
             <span className="mr-1 cursor-pointer text-[#56BCFB]">
               <Link href="/register">Sign Up</Link>
+            </span>
+            <span>
+              <Link href="/forgetPassword">Forget Password</Link>
             </span>
           </div>
         </>
