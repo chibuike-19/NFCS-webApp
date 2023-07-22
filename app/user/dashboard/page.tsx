@@ -19,9 +19,8 @@ const UserDashboard = () => {
   const uploadPhoto = async (e: FormEvent) => {
     e.preventDefault();
     const userPhotoUrl = inputRef.current!.value;
-    const user = getAuth();
     try {
-      await updateUserProfilePicture(userPhotoUrl, user.currentUser);
+      await updateUserProfilePicture(userPhotoUrl, user);
     } catch (error) {}
   };
 
