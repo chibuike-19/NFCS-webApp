@@ -6,6 +6,7 @@ import { FiLoader } from "react-icons/fi";
 import Link from "next/link";
 import { ToastMessages } from "@/app/component/toastMessages";
 import { useRef, useState } from "react";
+import ForgetPassword from "@/app/component/ForgetPassword";
 
 const Login = () => {
   const {
@@ -16,6 +17,8 @@ const Login = () => {
     loading,
     setLoading,
     userPasswordRef,
+    isReset,
+    handleIsReset,
   } = useAuth();
 
   const onFormSubmit = async (e: any) => {
@@ -44,6 +47,8 @@ const Login = () => {
         </div>
       ) : (
         <>
+          {isReset && <ForgetPassword />}
+
           <form
             action=""
             onSubmit={onFormSubmit}
@@ -79,12 +84,32 @@ const Login = () => {
                 className="py-2 px-4 text-black rounded-md shadow-xl outline-none"
               />
             </div>
+            <div className="flex justify-between">
+              <div>
+                <input type="checkbox" id="checkbox" />
+                <label
+                  htmlFor="checkbox"
+                  className="
+                text-gray-700 font-semibold ml-1"
+                >
+                  Remember me
+                </label>
+              </div>
+              <button
+                type="button"
+                className="text-[#56BCFB]"
+                onClick={handleIsReset}
+              >
+                Forgot Password?
+              </button>
+            </div>
 
             <input
               type="submit"
               value="Login"
               className="border-2 border-[#56BCFB] cursor-pointer bg-[#56BCFB] py-2"
             />
+
             <span className="text-black">OR</span>
           </form>
           <div className="flex justify-center mt-4">
@@ -101,9 +126,7 @@ const Login = () => {
             <span className="mr-1 cursor-pointer text-[#56BCFB]">
               <Link href="/register">Sign Up</Link>
             </span>
-            <span>
-              <Link href="/forgetPassword">Forget Password</Link>
-            </span>
+            <span></span>
           </div>
         </>
       )}

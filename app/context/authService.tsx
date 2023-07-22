@@ -37,6 +37,7 @@ export const AuthService = ({ children }: ContextProp) => {
   const userPasswordRef = useRef<HTMLInputElement>(null);
   const userNameRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
+  const [isReset, setIsReset] = useState<boolean>(false)
 
   useEffect(() => {
     // Grabs current user object on mount of page
@@ -122,9 +123,9 @@ export const AuthService = ({ children }: ContextProp) => {
       console.log(
         "Your passord has been sent to your mail, please check your mail"
       );
-      setTimeout(() => {
-        router.push("/login");
-      }, 2000);
+      // setTimeout(() => {
+      //   router.push("/login");
+      // }, 2000);
       return res;
     } catch (error) {}
   };
@@ -135,6 +136,10 @@ export const AuthService = ({ children }: ContextProp) => {
     });
     console.log(currentUser)
   };
+
+  const handleIsReset = () => {
+    setIsReset(prevState => !prevState)
+  }
 
   return (
     <AuthContext.Provider
@@ -152,6 +157,8 @@ export const AuthService = ({ children }: ContextProp) => {
         createNewUserWithEmailAndPassword,
         resetPassword,
         updateUserProfilePicture,
+        isReset,
+        handleIsReset,
       }}
     >
       {children}

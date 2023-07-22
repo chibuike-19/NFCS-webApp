@@ -26,4 +26,6 @@ export type ValueProp = {
   userNameRef: React.RefObject<HTMLInputElement> | null;
   loading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  isReset: boolean,
+  handleIsReset: () => void;
 };
