@@ -8,7 +8,7 @@ interface ForgetPasswordProps {}
 // This is for the modal backdrop
 const Backdrop: React.FC<{ children: React.ReactNode }> = (props) => {
   return (
-    <div className="absolute inset-0 bg-[#00000086] flex justify-center items-center">
+    <div className="absolute inset-0 bg-[#00000086] flex justify-center items-center backdrop-blur">
       {props.children}
     </div>
   );
@@ -24,7 +24,7 @@ const ForgetPassword: React.FC<ForgetPasswordProps> = () => {
     e.preventDefault();
     try {
       await resetPassword(emailRef.current!.value);
-
+  
       // This will change the state showing a message telling user to go and check their mail and login with their new password
       setIsSuccessfull(true);
     } catch (error) {}

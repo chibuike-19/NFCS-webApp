@@ -19,7 +19,7 @@ export type ValueProp = {
   ) => Promise<void>;
 
   resetPassword: (email: string) => Promise<any>;
-  updateUserProfilePicture: (url: string, currentUser: any)=> Promise<void>;
+  updateUserProfilePicture: (file: any, currentUser: any, setUrlLoading: React.Dispatch<React.SetStateAction<boolean>>)=> Promise<void>;
 
   userEmailRef: React.RefObject<HTMLInputElement> | null;
   userPasswordRef: React.RefObject<HTMLInputElement> | null;
