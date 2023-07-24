@@ -33,7 +33,7 @@ const ForgetPassword: React.FC<ForgetPasswordProps> = () => {
   if (isSuccessfull) {
     return (
       <Backdrop>
-        <div className="flex mx-5 bg-white p-2 py-10 rounded-3xl relative">
+        <div className="flex mx-0 sm:mx-5 bg-white p-2 py-10 rounded-3xl relative">
           <button
             type="button"
             className="text-white bg-[#56BCFB] rounded-full absolute top-5 right-5 w-8 h-8 cursor-pointer"

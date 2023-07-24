@@ -128,10 +128,14 @@ export const AuthService = ({ children }: ContextProp) => {
     } catch (error) {}
   };
 
-  const updateUserProfilePicture = async (file, currentUser, setUrlLoading) => {
+  const updateUserProfilePicture = async (
+    file: any,
+    currentUser: User,
+    setUrlLoading: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
     const storageRef = ref(storage, currentUser.uid + ".png");
 
-    setUrlLoading(true)
+    setUrlLoading(true);
 
     const snapshot = await uploadBytes(storageRef, file);
 
@@ -140,7 +144,7 @@ export const AuthService = ({ children }: ContextProp) => {
     await updateProfile(currentUser, {
       photoURL: photoUrl,
     });
-    setUrlLoading(false)
+    setUrlLoading(false);
   };
 
   const handleIsReset = () => {

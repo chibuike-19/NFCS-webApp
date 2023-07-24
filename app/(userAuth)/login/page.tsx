@@ -28,7 +28,7 @@ const Login = () => {
       await loginWithEmailAndPassword(
         userEmailRef?.current?.value!,
         userPasswordRef?.current?.value!
-      ).catch((error) => console.log(error));
+      )
 
       ToastMessages("success", false);
       setLoading(false);
