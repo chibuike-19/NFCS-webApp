@@ -1,12 +1,13 @@
 "use client";
 
-import { auth } from "./firebase";
+import { auth, storage } from "./firebase";
 import { useContext } from "react";
 import { ValueProp, ContextProp } from "@/types/AuthTypes";
 import React from "react";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { ToastMessages } from "../component/toastMessages";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import {
   GoogleAuthProvider,
   signOut,
@@ -20,9 +21,8 @@ import {
   getAuth,
 } from "firebase/auth";
 
-// initialize context for whole application 
-const AuthContext = React.createContext({} as ValueProp)
-
+// initialize context for whole application
+const AuthContext = React.createContext({} as ValueProp);
 
 // export const AuthService = ({ children }: ContextProp) => {
 //   const router = useRouter();
@@ -37,7 +37,7 @@ export const AuthService = ({ children }: ContextProp) => {
   const userPasswordRef = useRef<HTMLInputElement>(null);
   const userNameRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
-  const [isReset, setIsReset] = useState<boolean>(false)
+  const [isReset, setIsReset] = useState<boolean>(false);
 
   useEffect(() => {
     // Grabs current user object on mount of page
@@ -123,23 +123,29 @@ export const AuthService = ({ children }: ContextProp) => {
       console.log(
         "Your passord has been sent to your mail, please check your mail"
       );
-      // setTimeout(() => {
-      //   router.push("/login");
-      // }, 2000);
+
       return res;
     } catch (error) {}
   };
 
-  const updateUserProfilePicture = async (url: string, currentUser: any) => {
+  const updateUserProfilePicture = async (file, currentUser, setUrlLoading) => {
+    const storageRef = ref(storage, currentUser.uid + ".png");
+
+    setUrlLoading(true)
+
+    const snapshot = await uploadBytes(storageRef, file);
+
+    const photoUrl = await getDownloadURL(storageRef);
+
     await updateProfile(currentUser, {
-      photoURL: url,
+      photoURL: photoUrl,
     });
-    console.log(currentUser)
+    setUrlLoading(false)
   };
 
   const handleIsReset = () => {
-    setIsReset(prevState => !prevState)
-  }
+    setIsReset((prevState) => !prevState);
+  };
 
   return (
     <AuthContext.Provider
