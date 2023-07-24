@@ -1,6 +1,7 @@
 "use client";
 
 import ProtectedRoute from "@/app/component/protectedRoute";
+import Image from "next/image";
 import { useAuth } from "@/app/context/authService";
 import { getAuth } from "firebase/auth";
 import { useRouter } from "next/navigation";
@@ -31,6 +32,7 @@ const UserDashboard = () => {
         <input type="file" accept="image/*" ref={inputRef} />
         <button type="submit">Upload Photo</button>
       </form>
+      <img src={user?.photoURL!} alt="user photo" width={20} height={20}/>
       <button onClick={LogOut}>log Out</button>
     </div>
   );
