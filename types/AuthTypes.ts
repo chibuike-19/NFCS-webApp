@@ -28,4 +28,6 @@ export type ValueProp = {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   isReset: boolean,
   handleIsReset: () => void;
+  adminPhotoUpload: (file: any) => Promise<void>;
+  mediaUrls: string[];
 };

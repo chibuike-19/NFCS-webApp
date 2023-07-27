@@ -7,7 +7,7 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { ToastMessages } from "../component/toastMessages";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
 import {
   GoogleAuthProvider,
   signOut,
@@ -20,6 +20,7 @@ import {
   updateProfile,
   getAuth,
 } from "firebase/auth";
+import { nanoid } from "nanoid";
 
 // initialize context for whole application
 const AuthContext = React.createContext({} as ValueProp);
@@ -38,6 +39,7 @@ export const AuthService = ({ children }: ContextProp) => {
   const userNameRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
   const [isReset, setIsReset] = useState<boolean>(false);
+  const [mediaUrls, setMediaUrls] = useState<string[]>([]);
 
   useEffect(() => {
     // Grabs current user object on mount of page
@@ -87,6 +89,7 @@ export const AuthService = ({ children }: ContextProp) => {
       console.log(error.message);
     }
   };
+
   const createNewUserWithEmailAndPassword = async (
     email: string,
     password: string
@@ -151,6 +154,28 @@ export const AuthService = ({ children }: ContextProp) => {
     setIsReset((prevState) => !prevState);
   };
 
+  const allMediaRef = ref(storage, "images/");
+
+  const adminPhotoUpload = async (file: any) => {
+    const storageRef = ref(storage, `images/${file.name + nanoid()}`);
+    const snapshot = await uploadBytes(storageRef, file);
+
+    const photoURL = await getDownloadURL(storageRef);
+    setMediaUrls((prev) => [...prev, photoURL]);
+    console.log("added to media");
+  };
+
+  useEffect(() => {
+    listAll(allMediaRef).then((res) => {
+      res.items.forEach((item) => {
+        getDownloadURL(item).then((url) => {
+          setMediaUrls((prev) => [...prev, url]);
+        });
+      });
+    });
+    console.log(mediaUrls);
+  }, []);
+
   return (
     <AuthContext.Provider
       value={{
@@ -169,6 +194,8 @@ export const AuthService = ({ children }: ContextProp) => {
         updateUserProfilePicture,
         isReset,
         handleIsReset,
+        adminPhotoUpload,
+        mediaUrls,
       }}
     >
       {children}

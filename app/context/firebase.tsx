@@ -21,5 +21,5 @@ export const db = getDatabase(app)
 
 
 // Initialize storage
-export const storage = getStorage()
+export const storage = getStorage(app)
 
