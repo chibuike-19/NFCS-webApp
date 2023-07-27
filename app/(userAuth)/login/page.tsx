@@ -16,6 +16,7 @@ const Login = () => {
     userEmailRef,
     loading,
     setLoading,
+    setAuthPersistence,
     userPasswordRef,
     isReset,
     handleIsReset,
@@ -86,7 +87,7 @@ const Login = () => {
             </div>
             <div className="flex justify-between">
               <div>
-                <input type="checkbox" id="checkbox" />
+                <input type="checkbox" id="checkbox" onChange={(e) => setAuthPersistence(prev => !prev)} />
                 <label
                   htmlFor="checkbox"
                   className="

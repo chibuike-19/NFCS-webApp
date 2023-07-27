@@ -16,6 +16,9 @@ import {
   createUserWithEmailAndPassword,
   UserCredential,
   User,
+  setPersistence, 
+  browserSessionPersistence,
+  browserLocalPersistence,
   sendPasswordResetEmail,
   updateProfile,
   getAuth,
@@ -32,6 +35,7 @@ const AuthContext = React.createContext({} as ValueProp);
 export const AuthService = ({ children }: ContextProp) => {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
+  const [authPersistence, setAuthPersistence] = useState(false)
   const [setCurrentUser, cuurentUser] = useState<User | null>(null);
   const userEmailRef = useRef<HTMLInputElement>(null);
   const userPasswordRef = useRef<HTMLInputElement>(null);
@@ -47,7 +51,7 @@ export const AuthService = ({ children }: ContextProp) => {
     return unsubcribe;
   }, []);
   const loginWithGoogle = async () => {
-    const Provider = new GoogleAuthProvider();
+    const Provider = new GoogleAuthProvider( );
 
     try {
       const userCred = await signInWithPopup(auth, Provider);
@@ -70,18 +74,34 @@ export const AuthService = ({ children }: ContextProp) => {
   };
   const loginWithEmailAndPassword = async (email: string, password: string) => {
     try {
-      const res = await signInWithEmailAndPassword(auth, email, password);
-      ToastMessages("success", false);
-      // checks for type of user i.e either admin or normal user and route to their respective pages
-      res.user.getIdTokenResult(true).then((idTokenResult) => {
-        if (idTokenResult.claims.moderator) {
-          router.push("/admin/dashboard");
-        } else {
-          router.push("/user/dashboard");
-        }
-      });
-      // console.log((await res.user.getIdTokenResult(true)).claims);
-      return res.user;
+      if(authPersistence) {
+        setPersistence(auth, browserLocalPersistence).then(async () => {
+          const res = await signInWithEmailAndPassword(auth, email, password);
+          ToastMessages("success", false);
+          // checks for type of user i.e either admin or normal user and route to their respective pages
+          res.user.getIdTokenResult(true).then((idTokenResult) => {
+            if (idTokenResult.claims.moderator) {
+              router.push("/admin/dashboard");
+            } else {
+              router.push("/user/dashboard");
+            }
+          });
+          return
+        })
+      }else {
+        const res = await signInWithEmailAndPassword(auth, email, password);
+        ToastMessages("success", false);
+        // checks for type of user i.e either admin or normal user and route to their respective pages
+        res.user.getIdTokenResult(true).then((idTokenResult) => {
+          if (idTokenResult.claims.moderator) {
+            router.push("/admin/dashboard");
+          } else {
+            router.push("/user/dashboard");
+          }
+        });
+        return
+      }
+      
     } catch (error: any) {
       ToastMessages(error.message, true);
       console.log(error.message);
@@ -156,6 +176,8 @@ export const AuthService = ({ children }: ContextProp) => {
       value={{
         user,
         userNameRef,
+        authPersistence, 
+        setAuthPersistence,
         loading,
         setLoading,
         userEmailRef,
