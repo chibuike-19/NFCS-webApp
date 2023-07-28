@@ -1,8 +1,8 @@
 "use client";
 
 import ProtectedRoute from "@/app/component/protectedRoute";
-import Image from "next/image";
 import { useAuth } from "@/app/context/authService";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 
@@ -36,6 +36,8 @@ const UserDashboard = () => {
 
   const uploadPhoto = async (event: FormEvent) => {
     event.preventDefault();
+    if(photo === null) return;
+    
     await updateUserProfilePicture(photo, user, setLoading);
     console.log("done");
     setPhoto(null);
@@ -52,9 +54,7 @@ const UserDashboard = () => {
           ref={inputRef}
         />
         <div className="w-40 h-40 bg-red-500 rounded-full overflow-hidden mt-5">
-          {photoURL && (
             <img src={photoURL} alt="profile" className="object-contain" />
-          )}
         </div>
         {loading && <p>Loading...</p>}
         <button
@@ -64,9 +64,10 @@ const UserDashboard = () => {
           Upload Photo
         </button>
       </form>
-      <img src={user?.photoURL!} alt="user photo" width={20} height={20}/>
-      <button onClick={LogOut}>log Out</button>
+      <Link href="/media" className="bg-blue-600 rounded-lg p-4 mb-6">Media</Link><br />
+      <button onClick={LogOut} className="mt-[3rem]">log Out</button>
     </div>
   );
 };
+
 export default ProtectedRoute(UserDashboard);

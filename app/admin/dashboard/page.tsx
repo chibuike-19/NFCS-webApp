@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { db } from "@/app/context/firebase";
 import { grantModerator } from "@/lib/admin-config";
 import { useRef, useState, useEffect } from "react";
+import Link from "next/link";
 
 const AdminDashboard = () => {
   const router = useRouter();
@@ -19,7 +20,15 @@ const AdminDashboard = () => {
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
   );
   const [loading, setLoading] = useState<boolean>(false);
-  const { user, logOut, userEmailRef, updateUserProfilePicture } = useAuth();
+  const {
+    user,
+    logOut,
+    userEmailRef,
+    updateUserProfilePicture,
+    adminPhotoUpload,
+    mediaUrls,
+  } = useAuth();
+  const [mediaInput, setMediaInput] = useState<File | null>(null);
 
   useEffect(() => {
     console.log(user);
@@ -57,6 +66,7 @@ const AdminDashboard = () => {
         console.log(snap.val());
       });
     });
+
     // Add to a list of item in a particular reference
 
     // push(reference, {
@@ -75,6 +85,15 @@ const AdminDashboard = () => {
     //   event_time: timeRef.current?.value
     // })
   };
+
+  //Add Photo to media
+  const handleAddPhotoToMedia = async () => {
+    if (mediaInput === null) return;
+    await adminPhotoUpload(mediaInput);
+    console.log("Added to media");
+    console.log(mediaUrls)
+  };
+
   // Logs out user
   const signOut = () => {
     logOut;
@@ -119,7 +138,24 @@ const AdminDashboard = () => {
         <input type="text" placeholder="post time" ref={timeRef} />
 
         <input type="submit" />
+
+        <br />
+        <label htmlFor="media" className="mt-[5rem]">Upload Photos to media</label><br />
+        <input
+          type="file"
+          id="media"
+          onChange={(e) =>
+            setMediaInput(e.target.files ? e.target.files[0] : null)
+          }
+        />
+        <button type="button" onClick={handleAddPhotoToMedia} className="bg-black text-white p-3">
+          Add to media
+        </button>
       </form>
+      <Link href="/media" className="bg-blue-600 rounded-lg p-2 m-4">
+        GO To Media
+      </Link>
+      <br />
       <button onClick={signOut}>Log Out</button>
     </div>
   );
