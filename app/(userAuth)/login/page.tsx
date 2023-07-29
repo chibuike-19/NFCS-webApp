@@ -1,11 +1,10 @@
 "use client";
-
+import { useRef, useState } from "react";
 import { useAuth } from "../../context/authService";
 import { FcGoogle } from "react-icons/fc";
 import { FiLoader } from "react-icons/fi";
 import Link from "next/link";
 import { ToastMessages } from "@/app/component/toastMessages";
-import { useRef, useState } from "react";
 import ForgetPassword from "@/app/component/ForgetPassword";
 
 const Login = () => {
@@ -14,6 +13,7 @@ const Login = () => {
     loginWithGoogle,
     loginWithEmailAndPassword,
     userEmailRef,
+    authPersistence,
     loading,
     setLoading,
     setAuthPersistence,
@@ -22,20 +22,29 @@ const Login = () => {
     handleIsReset,
   } = useAuth();
 
+  const handleRememberMe = (e: any) => {
+    if (e.target.checked) {
+      setAuthPersistence(true);
+    } else {
+      setAuthPersistence(false);
+    }
+    console.log(authPersistence);
+    console.log(e);
+  };
   const onFormSubmit = async (e: any) => {
     e.preventDefault();
-    setLoading(true);
+    // setLoading(true);
     try {
       await loginWithEmailAndPassword(
         userEmailRef?.current?.value!,
         userPasswordRef?.current?.value!
-      )
+      );
 
-      ToastMessages("success", false);
-      setLoading(false);
+      // ToastMessages("success", false);
+      // setLoading(false);
     } catch (error: any) {
-      setLoading(false);
-      ToastMessages(error.data.message as string, true);
+      // setLoading(false);
+      // ToastMessages(error.data.message as string, true);
       console.log(error.message);
     }
   };
@@ -87,7 +96,11 @@ const Login = () => {
             </div>
             <div className="flex justify-between">
               <div>
-                <input type="checkbox" id="checkbox" onChange={(e) => setAuthPersistence(prev => !prev)} />
+                <input
+                  type="checkbox"
+                  id="checkbox"
+                  onChange={(e) => handleRememberMe(e)}
+                />
                 <label
                   htmlFor="checkbox"
                   className="

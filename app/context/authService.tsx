@@ -49,9 +49,11 @@ export const AuthService = ({ children }: ContextProp) => {
     // Grabs current user object on mount of page
     const unsubcribe = auth.onAuthStateChanged((user) => {
       setUser(user);
+      console.log(user)
     });
     return unsubcribe;
   }, []);
+
   const loginWithGoogle = async () => {
     const Provider = new GoogleAuthProvider( );
 
@@ -79,7 +81,7 @@ export const AuthService = ({ children }: ContextProp) => {
       if(authPersistence) {
         setPersistence(auth, browserLocalPersistence).then(async () => {
           const res = await signInWithEmailAndPassword(auth, email, password);
-          ToastMessages("success", false);
+          // ToastMessages("success", false);
           // checks for type of user i.e either admin or normal user and route to their respective pages
           res.user.getIdTokenResult(true).then((idTokenResult) => {
             if (idTokenResult.claims.moderator) {
