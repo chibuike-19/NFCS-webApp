@@ -8,6 +8,7 @@ import { db } from "@/app/context/firebase";
 import { grantModerator } from "@/lib/admin-config";
 import { useRef, useState, useEffect } from "react";
 import Link from "next/link";
+import SecondProtectedRoute from "@/app/component/protectedRoute2";
 
 const AdminDashboard = () => {
   const router = useRouter();
@@ -29,6 +30,8 @@ const AdminDashboard = () => {
     mediaUrls,
   } = useAuth();
   const [mediaInput, setMediaInput] = useState<File | null>(null);
+
+  SecondProtectedRoute();
 
   useEffect(() => {
     console.log(user);
@@ -140,7 +143,10 @@ const AdminDashboard = () => {
         <input type="submit" />
 
         <br />
-        <label htmlFor="media" className="mt-[5rem]">Upload Photos to media</label><br />
+        <label htmlFor="media" className="mt-[5rem]">
+          Upload Photos to media
+        </label>
+        <br />
         <input
           type="file"
           id="media"
@@ -148,16 +154,23 @@ const AdminDashboard = () => {
             setMediaInput(e.target.files ? e.target.files[0] : null)
           }
         />
-        <button type="button" onClick={handleAddPhotoToMedia} className="bg-black text-white p-3">
+        <button
+          type="button"
+          onClick={handleAddPhotoToMedia}
+          className="bg-black text-white p-3"
+        >
           Add to media
         </button>
       </form>
       <Link href="/media" className="bg-blue-600 rounded-lg p-2 m-4">
         GO To Media
       </Link>
+      <Link href="/members" className="bg-blue-600 rounded-lg p-2 m-4">
+        See all members
+      </Link>
       <br />
       <button onClick={signOut}>Log Out</button>
     </div>
   );
 };
-export default ProtectedRoute(AdminDashboard);
+export default AdminDashboard;

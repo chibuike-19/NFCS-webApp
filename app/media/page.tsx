@@ -1,6 +1,7 @@
 "use client";
 
 import ProtectedRoute from "../component/protectedRoute";
+import SecondProtectedRoute from "../component/protectedRoute2";
 import { useAuth } from "../context/authService";
 interface MediaProps {
   children: React.ReactNode;
@@ -8,6 +9,7 @@ interface MediaProps {
 
 const Media: React.FC<MediaProps> = ({}) => {
   const { mediaUrls } = useAuth();
+  SecondProtectedRoute();
 
   const AllPhotos = mediaUrls.map((photo, index) => (
     <div key={index} className="w-50 h-50">
@@ -23,4 +25,4 @@ const Media: React.FC<MediaProps> = ({}) => {
   </div>;
 };
 
-export default ProtectedRoute(Media);
+export default Media;

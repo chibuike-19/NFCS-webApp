@@ -4,8 +4,9 @@ import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import ProtectedRoute from "@/app/component/protectedRoute";
 import { useAuth } from "@/app/context/authService";
 import Link from "next/link";
-import { ref, set, onValue } from "firebase/database";
+import { ref, set, onValue, update } from "firebase/database";
 import { db } from "@/app/context/firebase";
+import SecondProtectedRoute from "@/app/component/protectedRoute2";
 
 const UserDashboard = () => {
   const { user, logOut, updateUserProfilePicture, setUser } = useAuth();
@@ -25,6 +26,8 @@ const UserDashboard = () => {
   );
   const [loading, setLoading] = useState<boolean>(false);
 
+  SecondProtectedRoute();
+
   useEffect(() => {
     console.log(user);
     if (user?.photoURL) {
@@ -38,25 +41,17 @@ const UserDashboard = () => {
 
   const handleAddEvent = (e:any) => {
     e.preventDefault();
-    // set(ref(db, "users/" + user?.uid), {
-    //   nickname: desc_ref.current?.value,
-    //   favorite_life_qoute: eventRef.current?.value,
-    //   date_of_birth: dateRef.current?.value,
-    //   twitter_link: tweetRef.current?.value,
-    //   linkedin_link: LinkedInRef.current?.value,
-    //   insta_link: instaRef.current?.value,
-    //   services: serviceRef.current?.value,
+    update(ref(db, "users/" + user?.uid), {
+      nickname: desc_ref.current?.value,
+      favorite_life_qoute: eventRef.current?.value,
+      date_of_birth: dateRef.current?.value,
+      twitter_link: tweetRef.current?.value,
+      linkedin_link: LinkedInRef.current?.value,
+      insta_link: instaRef.current?.value,
+      services: serviceRef.current?.value,
 
-    // });
-    const usersArray: any = []
-      const reference = ref(db, "users/");
-      onValue(reference, (snapshot) => {
-        snapshot.forEach((snap) => {
-          usersArray.push(snap.val())
-          console.log(usersArray);
-        });
-      });
-      console.log(usersArray)
+    });
+ 
   };
 
 
@@ -78,6 +73,9 @@ const UserDashboard = () => {
 
     await updateUserProfilePicture(photo, user, setLoading);
     console.log("done");
+    update(ref(db, 'users/' + user?.uid), {
+      profile_url: user?.photoURL
+    })
     setPhoto(null);
   };
 
@@ -135,6 +133,9 @@ const UserDashboard = () => {
       <Link href="/media" className="bg-blue-600 rounded-lg p-4 mb-6">
         Media
       </Link>
+      <Link href="/members" className="bg-blue-600 ml-4 rounded-lg p-4 mb-6">
+        see all members
+      </Link>
       <br />
       <button onClick={LogOut} className="mt-[3rem]">
         log Out
@@ -143,4 +144,4 @@ const UserDashboard = () => {
   );
 };
 
-export default ProtectedRoute(UserDashboard);
+export default UserDashboard;

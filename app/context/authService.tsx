@@ -1,6 +1,6 @@
 "use client";
 
-import { auth, storage } from "./firebase";
+import { auth, storage, db } from "./firebase";
 import { useContext } from "react";
 import { ValueProp, ContextProp } from "@/types/AuthTypes";
 import React from "react";
@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { ToastMessages } from "../component/toastMessages";
 import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
+import {set, update, ref as dbRef, } from 'firebase/database'
 import {
   GoogleAuthProvider,
   signOut,
@@ -44,6 +45,7 @@ export const AuthService = ({ children }: ContextProp) => {
   const [loading, setLoading] = useState(false);
   const [isReset, setIsReset] = useState<boolean>(false);
   const [mediaUrls, setMediaUrls] = useState<string[]>([]);
+  const [members, setMembers] = useState<any>([])
 
   useEffect(() => {
     // Grabs current user object on mount of page
@@ -123,6 +125,11 @@ export const AuthService = ({ children }: ContextProp) => {
           updateProfile(result.user, {
             displayName: userNameRef.current?.value,
           });
+           set(dbRef(db, "users/" + result.user.uid), {
+             username: userNameRef.current?.value,
+             email: userEmailRef.current?.value,
+             profile_picture: result.user.photoURL,
+           });
           // checks for type of user i.e either admin or normal user and route to their respective pages
           result.user.getIdTokenResult(true).then((idTokenResult) => {
             if (idTokenResult.claims.moderator) {
@@ -220,6 +227,8 @@ export const AuthService = ({ children }: ContextProp) => {
         handleIsReset,
         adminPhotoUpload,
         mediaUrls,
+        members,
+        setMembers
       }}
     >
       {children}

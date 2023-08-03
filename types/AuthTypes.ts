@@ -33,4 +33,6 @@ export type ValueProp = {
   handleIsReset: () => void;
   adminPhotoUpload: (file: any) => Promise<void>;
   mediaUrls: string[];
+  members: any;
+  setMembers: React.Dispatch<any>;
 };
