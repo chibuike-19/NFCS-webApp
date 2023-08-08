@@ -26,7 +26,7 @@ const Register = () => {
         <div className="flex flex-col gap-2">
           <label
             htmlFor=""
-            className="text-left text-xl text-black font-semibold "
+            className="label"
           >
             Name
           </label>
@@ -35,27 +35,27 @@ const Register = () => {
             name=""
             ref={userNameRef}
             placeholder="Enter Your name"
-            className="py-2 px-4 text-black w-[20rem] sm:w-[25rem] md:w-[32rem] rounded-md shadow-xl outline-none"
+            className="input"
             id=""
           />
         </div>
         <div className="flex flex-col gap-2">
           <label
             htmlFor=""
-            className="text-left text-xl text-black font-semibold"
+            className="label"
           >
             Email
           </label>
           <input
             type="email"
             ref={userEmailRef}
-            className="py-2 px-4 text-black rounded-md shadow-xl outline-none"
+            className="input"
           />
         </div>
         <div className="flex flex-col gap-2">
           <label
             htmlFor=""
-            className="text-left text-xl text-black font-semibold"
+            className="label"
           >
             {" "}
             Password
@@ -63,7 +63,7 @@ const Register = () => {
           <input
             type="password"
             ref={userPasswordRef}
-            className="py-2 px-4 text-black rounded-md shadow-xl outline-none"
+            className="input"
           />
         </div>
 
@@ -73,8 +73,8 @@ const Register = () => {
           className="border-2 border-[#56BCFB] cursor-pointer bg-[#56BCFB] py-2"
         />
       </form>
-      <div className="text-left mt-4">
-        <span className="text-black text-lg">Already have an account? </span>
+      <div className="text-left mt-4 font-[600]">
+        <span className="text-black text-lg ">Already have an account? </span>
         <span className="mr-1 text-[#56BCFB] cursor-pointer">
           <Link href="/login">Login</Link>
         </span>

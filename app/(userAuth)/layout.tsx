@@ -10,7 +10,7 @@ export default function RegistrationLayout({ children }: { children: React.React
   return (
     <>
  
-        <div className="flex justify-around signup md:mx-0 mx-auto min-h-screen items-center">
+        <div className="flex justify-around signup md:mx-0 mx-auto min-h-screen items-center font-body">
           <main>{children}</main>
         </div>
     </>
