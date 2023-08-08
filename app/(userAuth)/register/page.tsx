@@ -1,10 +1,13 @@
 "use client";
 import { useRef } from "react";
+import Image from "next/image";
+import CoverPhoto from "../../../public/imgs/cover-bg.png";
 import { useAuth } from "../../context/authService";
+import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
 
 const Register = () => {
-  const { createNewUserWithEmailAndPassword, userEmailRef, userNameRef, userPasswordRef } =
+  const { createNewUserWithEmailAndPassword, userEmailRef, userNameRef, userPasswordRef, loginWithGoogle } =
     useAuth();
 
   const onFormSubmit = (e: any) => {
@@ -20,64 +23,72 @@ const Register = () => {
   };
 
   return (
-    <div>
-      <form action="" onSubmit={onFormSubmit} className="flex flex-col gap-6">
-        <h1 className="text-3xl text-black font-semibold">Create Account</h1>
-        <div className="flex flex-col gap-2">
-          <label
-            htmlFor=""
-            className="label"
-          >
-            Name
-          </label>
-          <input
-            type="text"
-            name=""
-            ref={userNameRef}
-            placeholder="Enter Your name"
-            className="input"
-            id=""
-          />
-        </div>
-        <div className="flex flex-col gap-2">
-          <label
-            htmlFor=""
-            className="label"
-          >
-            Email
-          </label>
-          <input
-            type="email"
-            ref={userEmailRef}
-            className="input"
-          />
-        </div>
-        <div className="flex flex-col gap-2">
-          <label
-            htmlFor=""
-            className="label"
-          >
-            {" "}
-            Password
-          </label>
-          <input
-            type="password"
-            ref={userPasswordRef}
-            className="input"
-          />
-        </div>
-
-        <input
-          type="submit"
-          value="Create Account"
-          className="border-2 border-[#56BCFB] cursor-pointer bg-[#56BCFB] py-2"
+    <div className="flex overflow-hidden">
+      <div className="basis-[50%] pr8 h-[100vh] lg:flex mobile:hidden w-full">
+        <Image
+          src={CoverPhoto}
+          alt="Photo of the church"
+          className="w-[80rem] h-[100%] object-cover"
         />
-      </form>
-      <div className="text-left mt-4 font-[600]">
-        <span className="text-black text-lg ">Already have an account? </span>
-        <span className="mr-1 text-[#56BCFB] cursor-pointer">
-          <Link href="/login">Login</Link>
-        </span>
+      </div>
+      <div className="basis-[50%] lg:pl-8 xl:pl-16 h-[100vh]">
+        <form action="" onSubmit={onFormSubmit} className="flex flex-col gap-6">
+          <h1 className="text-[42px]  w-[20rem] sm:w-[25rem] md:w-[32rem]  text-black font-semibold">
+            Create Account
+          </h1>
+          <div className="flex group flex-col gap-2">
+            <label htmlFor="" className="label">
+              Name
+            </label>
+            <input
+              type="text"
+              name=""
+              ref={userNameRef}
+              placeholder="Enter Your name"
+              className="input"
+              id=""
+            />
+          </div>
+          <div className="flex group flex-col gap-2">
+            <label htmlFor="" className="label">
+              Email
+            </label>
+            <input type="email" ref={userEmailRef} className="input" />
+          </div>
+          <div className="flex group flex-col gap-2">
+            <label htmlFor="" className="label">
+              {" "}
+              Password
+            </label>
+            <input type="password" ref={userPasswordRef} className="input" />
+          </div>
+
+          <input
+            type="submit"
+            value="Create Account"
+            className="border-2 rounded-md  w-[20rem] sm:w-[25rem] md:w-[32rem]  border-[#007BA0] cursor-pointer bg-[#007BA0] py-4"
+          />
+          <span className="text-black  w-[20rem] sm:w-[25rem] md:w-[32rem] before:content-[''] before:block before:h-[1.5px] mobile:before:w-[80px] tab:before:w-[190px] before:absolute before:top-1/2 before:left-4 before:bg-[#666666] after:right-4 after:h-[1.5px] after:absolute after:top-1/2 mobile:after:w-[80px] tab:after:w-[190px] after:block after:content-[''] after:bg-[#666666] relative">
+            OR
+          </span>
+          <div className="flex justify-center  w-[20rem] sm:w-[25rem] md:w-[32rem] mt-8">
+            <button
+              onClick={loginWithGoogle}
+              className="border-2 cursor-pointer w-full flex items-center justify-center gap-2 py-4 border-[#333333] rounded-md"
+            >
+              <span>{<FcGoogle />}</span>
+              <span className="text-black text-[16px]">Log in with google</span>
+            </button>
+          </div>
+          <div className="text-left mt-4 font-[600]">
+            <span className="text-black text-lg ">
+              Already have an account?{" "}
+            </span>
+            <span className="mr-1 text-[#56BCFB] cursor-pointer">
+              <Link href="/login">Login</Link>
+            </span>
+          </div>
+        </form>
       </div>
     </div>
   );
