@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -27,16 +29,25 @@
 } */
 
 .signup {
-  background-image: linear-gradient(
+  /* background-image: linear-gradient(
       to bottom left,
       #42c2f5bf,
       rgba(255, 255, 255)
     ),
-    url("../public//logo.png");
+    url("../public//logo.png"); */
+    background-color: white;
   width: 100%;
   height: 280px;
   text-align: center;
   color: #fff;
   background-repeat: no-repeat;
   background-position: center right;
+}
+
+.input {
+  @apply py-2 px-4 w-[20rem] sm:w-[25rem] md:w-[32rem] rounded-md text-[1rem] outline-none border focus:border-themeBlue border-black text-black focus:text-themeBlue;
+}
+
+.label {
+  @apply text-left text-black font-[600] text-[1rem];
 }
