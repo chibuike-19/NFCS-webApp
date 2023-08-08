@@ -1,30 +1,35 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
-import ProtectedRoute from "@/app/component/protectedRoute";
 import { useAuth } from "@/app/context/authService";
 import Link from "next/link";
 import { ref, set, onValue, update } from "firebase/database";
 import { db } from "@/app/context/firebase";
 import SecondProtectedRoute from "@/app/component/protectedRoute2";
+import { ProfileInfoProps } from "@/types/members";
+import { profile } from "console";
 
 const UserDashboard = () => {
   const { user, logOut, updateUserProfilePicture, setUser } = useAuth();
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const [photo, setPhoto] = useState<File | null>(null);
-  const eventRef = useRef<HTMLInputElement>(null);
-  const desc_ref = useRef<HTMLInputElement>(null);
-  const timeRef = useRef<HTMLInputElement>(null);
-  const dateRef = useRef<HTMLInputElement>(null);
-  const tweetRef = useRef<HTMLInputElement>(null);
-  const serviceRef = useRef<HTMLTextAreaElement>(null);
-  const LinkedInRef = useRef<HTMLInputElement>(null);
-  const instaRef = useRef<HTMLInputElement>(null);
   const [photoURL, setPhotoUrl] = useState<string>(
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
   );
   const [loading, setLoading] = useState<boolean>(false);
+  const [profileInfo, setProfileInfo] = useState<ProfileInfoProps>({
+    department: "",
+    date_of_birth: "",
+    nickname: "",
+    gender: "",
+    services: "",
+    favorite_life_quote: "",
+    linkedin_url: "",
+    insta_url: "",
+    twitter_url: "",
+    phone_number: "",
+  });
 
   SecondProtectedRoute();
 
@@ -35,26 +40,30 @@ const UserDashboard = () => {
     }
   }, [user, user?.photoURL]);
 
-  useEffect(() => {
-
-  },[])
-
-  const handleAddEvent = (e:any) => {
+  const handleAddEvent = (e: any) => {
     e.preventDefault();
     update(ref(db, "users/" + user?.uid), {
-      nickname: desc_ref.current?.value,
-      favorite_life_qoute: eventRef.current?.value,
-      date_of_birth: dateRef.current?.value,
-      twitter_link: tweetRef.current?.value,
-      linkedin_link: LinkedInRef.current?.value,
-      insta_link: instaRef.current?.value,
-      services: serviceRef.current?.value,
-
+      nickname: profileInfo.nickname,
+      favorite_life_qoute: profileInfo.favorite_life_quote,
+      date_of_birth: profileInfo.date_of_birth,
+      twitter_link: profileInfo.twitter_url,
+      linkedin_link: profileInfo.linkedin_url,
+      insta_link: profileInfo.insta_url,
+      services: profileInfo.services,
     });
- 
+    setProfileInfo({
+      department: "",
+      date_of_birth: "",
+      nickname: "",
+      gender: "",
+      services: "",
+      favorite_life_quote: "",
+      linkedin_url: "",
+      insta_url: "",
+      twitter_url: "",
+      phone_number: "",
+    });
   };
-
-
 
   const LogOut = () => {
     logOut;
@@ -73,9 +82,9 @@ const UserDashboard = () => {
 
     await updateUserProfilePicture(photo, user, setLoading);
     console.log("done");
-    update(ref(db, 'users/' + user?.uid), {
-      profile_url: user?.photoURL
-    })
+    update(ref(db, "users/" + user?.uid), {
+      profile_url: user?.photoURL,
+    });
     setPhoto(null);
   };
 
@@ -105,28 +114,88 @@ const UserDashboard = () => {
           Tell Us more about yourself, things you'd like others to know about
           you{" "}
         </label>
-        <input type="text" placeholder="favorite Life quote" ref={eventRef} />
+        <input
+          type="text"
+          placeholder="favorite Life quote"
+          value={profileInfo.favorite_life_quote}
+          onChange={(e) =>
+            setProfileInfo({
+              ...profileInfo,
+              favorite_life_quote: e.target.value,
+            })
+          }
+        />
         <input
           type="text"
           name="nick name"
           id=""
-          ref={desc_ref}
+          value={profileInfo.nickname}
+          onChange={(e) =>
+            setProfileInfo({ ...profileInfo, nickname: e.target.value })
+          }
           placeholder="nick name"
         />
-        <input type="text" placeholder="Date of birth" ref={dateRef} />
+        <input
+          type="date"
+          placeholder="Date of birth"
+          value={profileInfo.date_of_birth}
+          onChange={(e) =>
+            setProfileInfo({ ...profileInfo, date_of_birth: e.target.value })
+          }
+        />
         <textarea
           name=""
           id=""
           cols={30}
-          ref={serviceRef}
+          value={profileInfo.services}
           rows={10}
+          onChange={(e) =>
+            setProfileInfo({ ...profileInfo, services: e.target.value })
+          }
           placeholder="What services can you offer"
           className="border-2 border-black"
         ></textarea>
         <label htmlFor="">Social Media Links</label>
-        <input type="text" placeholder="LinkedIn profile" ref={LinkedInRef} />
-        <input type="text" placeholder="Twitter" ref={tweetRef} />
-        <input type="text" placeholder="Instagram" ref={instaRef} />
+        <input
+          type="text"
+          placeholder="LinkedIn profile"
+          value={profileInfo.linkedin_url}
+          onChange={(e) =>
+            setProfileInfo({ ...profileInfo, linkedin_url: e.target.value })
+          }
+        />
+        <input
+          type="text"
+          placeholder="Twitter"
+          value={profileInfo.twitter_url}
+          onChange={(e) =>
+            setProfileInfo({ ...profileInfo, twitter_url: e.target.value })
+          }
+        />
+        <input
+          type="text"
+          placeholder="Instagram"
+          value={profileInfo.insta_url}
+          onChange={(e) =>
+            setProfileInfo({ ...profileInfo, insta_url: e.target.value })
+          }
+        />
+        <input
+          type="text"
+          placeholder="gender"
+          value={profileInfo.gender}
+          onChange={(e) =>
+            setProfileInfo({ ...profileInfo, gender: e.target.value })
+          }
+        />
+        <input
+          type='number'
+          placeholder="phone number"
+          value={profileInfo.phone_number!}
+          onChange={(e) =>
+            setProfileInfo({ ...profileInfo, phone_number: e.target.value })
+          }
+        />
 
         <input type="submit" />
       </form>

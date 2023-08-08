@@ -1,4 +1,5 @@
 import { User } from "firebase/auth";
+import { MembersProps } from "./members";
 
 export type ContextProp = {
   children: React.ReactNode;
@@ -33,6 +34,6 @@ export type ValueProp = {
   handleIsReset: () => void;
   adminPhotoUpload: (file: any) => Promise<void>;
   mediaUrls: string[];
-  members: any;
-  setMembers: React.Dispatch<any>;
+  members: MembersProps;
+  setMembers: React.Dispatch<React.SetStateAction<MembersProps>>;
 };

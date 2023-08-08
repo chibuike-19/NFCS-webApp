@@ -6,25 +6,29 @@ import { db } from "@/app/context/firebase";
 import { useAuth } from "../context/authService";
 import ProtectedRoute from "../component/protectedRoute";
 import SecondProtectedRoute from "../component/protectedRoute2";
+import { MembersProps } from "@/types/members";
 
 const Members = () => {
   const { members, setMembers } = useAuth();
   SecondProtectedRoute();
   useEffect(() => {
-    const usersArray: any = [];
+    const usersArray: MembersProps = [];
     const reference = ref(db, "users/");
     onValue(reference, (snapshot) => {
-      snapshot.forEach((snap) => {
-        usersArray.push(snap.val());
+      snapshot.forEach( (snap) => {
+        const res =  snap.val()
+        usersArray.push(res);
+        // setMembers([snap.val()])
         // console.log(usersArray);
       });
     });
+    console.log(members)
     setMembers(usersArray);
   }, []);
 
   return (
     <div>
-      {members.map((member: any, indx: any) => (
+      {members?.map((member, indx) => (
         <div key={indx}>
           <div className="w-40 h-40 bg-red-500 rounded-full overflow-hidden mt-5">
             <img
@@ -35,6 +39,7 @@ const Members = () => {
           </div>
           <div>
             <p>{member.nickname}</p>
+            <p>{member.services}</p>
           </div>
         </div>
       ))}

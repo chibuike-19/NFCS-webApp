@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { ToastMessages } from "../component/toastMessages";
 import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
-import {set, update, ref as dbRef, } from 'firebase/database'
+import { set, update, ref as dbRef } from "firebase/database";
 import {
   GoogleAuthProvider,
   signOut,
@@ -17,13 +17,14 @@ import {
   createUserWithEmailAndPassword,
   UserCredential,
   User,
-  setPersistence, 
+  setPersistence,
   browserSessionPersistence,
   browserLocalPersistence,
   sendPasswordResetEmail,
   updateProfile,
   getAuth,
 } from "firebase/auth";
+import { MembersProps } from "@/types/members";
 import { nanoid } from "nanoid";
 
 // initialize context for whole application
@@ -37,7 +38,7 @@ const AuthContext = React.createContext({} as ValueProp);
 export const AuthService = ({ children }: ContextProp) => {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
-  const [authPersistence, setAuthPersistence] = useState(false)
+  const [authPersistence, setAuthPersistence] = useState(false);
   const [setCurrentUser, cuurentUser] = useState<User | null>(null);
   const userEmailRef = useRef<HTMLInputElement>(null);
   const userPasswordRef = useRef<HTMLInputElement>(null);
@@ -45,24 +46,48 @@ export const AuthService = ({ children }: ContextProp) => {
   const [loading, setLoading] = useState(false);
   const [isReset, setIsReset] = useState<boolean>(false);
   const [mediaUrls, setMediaUrls] = useState<string[]>([]);
-  const [members, setMembers] = useState<any>([])
+  const [members, setMembers] = useState<MembersProps>([]);
 
   useEffect(() => {
     // Grabs current user object on mount of page
     const unsubcribe = auth.onAuthStateChanged((user) => {
       setUser(user);
-      console.log(user)
+      console.log(user);
     });
     return unsubcribe;
   }, []);
 
+  useEffect(() => {
+    listAll(allMediaRef).then((res) => {
+      res.items.forEach((item) => {
+        getDownloadURL(item).then((url) => {
+          setMediaUrls((prev) => [...prev, url]);
+        });
+      });
+    });
+    console.log(mediaUrls);
+  }, []);
+
   const loginWithGoogle = async () => {
-    const Provider = new GoogleAuthProvider( );
+    const Provider = new GoogleAuthProvider();
 
     try {
       const userCred = await signInWithPopup(auth, Provider);
       // setUser(userCred.user);
       // checks for type of user i.e either admin or normal user and route to their respective pages
+
+      update(dbRef(db, "users/" + userCred.user.uid), {
+        username: userNameRef.current?.value,
+        email: userEmailRef.current?.value,
+        profile_url: userCred.user.photoURL,
+        isAdmin: userCred.user.getIdTokenResult(true).then((idToken) => {
+          if (idToken.claims.moderator) {
+            return true;
+          } else {
+            return false;
+          }
+        }),
+      });
       userCred.user.getIdTokenResult(true).then((idTokenResult) => {
         if (idTokenResult.claims.moderator) {
           router.push("/admin/dashboard");
@@ -80,7 +105,7 @@ export const AuthService = ({ children }: ContextProp) => {
   };
   const loginWithEmailAndPassword = async (email: string, password: string) => {
     try {
-      if(authPersistence) {
+      if (authPersistence) {
         setPersistence(auth, browserLocalPersistence).then(async () => {
           const res = await signInWithEmailAndPassword(auth, email, password);
           // ToastMessages("success", false);
@@ -92,9 +117,9 @@ export const AuthService = ({ children }: ContextProp) => {
               router.push("/user/dashboard");
             }
           });
-          return
-        })
-      }else {
+          return;
+        });
+      } else {
         const res = await signInWithEmailAndPassword(auth, email, password);
         ToastMessages("success", false);
         // checks for type of user i.e either admin or normal user and route to their respective pages
@@ -105,9 +130,8 @@ export const AuthService = ({ children }: ContextProp) => {
             router.push("/user/dashboard");
           }
         });
-        return
+        return;
       }
-      
     } catch (error: any) {
       ToastMessages(error.message, true);
       console.log(error.message);
@@ -125,11 +149,18 @@ export const AuthService = ({ children }: ContextProp) => {
           updateProfile(result.user, {
             displayName: userNameRef.current?.value,
           });
-           set(dbRef(db, "users/" + result.user.uid), {
-             username: userNameRef.current?.value,
-             email: userEmailRef.current?.value,
-             profile_picture: result.user.photoURL,
-           });
+          set(dbRef(db, "users/" + result.user.uid), {
+            username: userNameRef.current?.value,
+            email: userEmailRef.current?.value,
+            profile_url: result.user.photoURL,
+            isAdmin: result.user.getIdTokenResult(true).then((idToken) => {
+              if (idToken.claims.moderator) {
+                return true;
+              } else {
+                return false;
+              }
+            }),
+          });
           // checks for type of user i.e either admin or normal user and route to their respective pages
           result.user.getIdTokenResult(true).then((idTokenResult) => {
             if (idTokenResult.claims.moderator) {
@@ -194,23 +225,12 @@ export const AuthService = ({ children }: ContextProp) => {
     console.log("added to media");
   };
 
-  useEffect(() => {
-    listAll(allMediaRef).then((res) => {
-      res.items.forEach((item) => {
-        getDownloadURL(item).then((url) => {
-          setMediaUrls((prev) => [...prev, url]);
-        });
-      });
-    });
-    console.log(mediaUrls);
-  }, []);
-
   return (
     <AuthContext.Provider
       value={{
         user,
         userNameRef,
-        authPersistence, 
+        authPersistence,
         setAuthPersistence,
         loading,
         setLoading,
@@ -228,7 +248,7 @@ export const AuthService = ({ children }: ContextProp) => {
         adminPhotoUpload,
         mediaUrls,
         members,
-        setMembers
+        setMembers,
       }}
     >
       {children}
