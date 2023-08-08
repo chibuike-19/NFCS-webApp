@@ -68,7 +68,7 @@ const Register = () => {
             value="Create Account"
             className="border-2 rounded-md  w-[20rem] sm:w-[25rem] md:w-[32rem]  border-[#007BA0] cursor-pointer bg-[#007BA0] py-4"
           />
-          <span className="text-black  w-[20rem] sm:w-[25rem] md:w-[32rem] before:content-[''] before:block before:h-[1.5px] mobile:before:w-[80px] tab:before:w-[190px] before:absolute before:top-1/2 before:left-4 before:bg-[#666666] after:right-4 after:h-[1.5px] after:absolute after:top-1/2 mobile:after:w-[80px] tab:after:w-[190px] after:block after:content-[''] after:bg-[#666666] relative">
+          <span className="alternative">
             OR
           </span>
           <div className="flex justify-center  w-[20rem] sm:w-[25rem] md:w-[32rem] mt-8">
