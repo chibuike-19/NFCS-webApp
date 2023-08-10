@@ -53,7 +53,7 @@ const Login = () => {
   };
 
   return (
-    <div className="my-2">
+    <div className="">
       {loading ? (
         <div>
           <FiLoader />

@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { ToastMessages } from "../component/toastMessages";
 import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
-import { set, update, ref as dbRef } from "firebase/database";
+import { set, update, ref as dbRef, onValue} from "firebase/database";
 import {
   GoogleAuthProvider,
   signOut,
@@ -26,14 +26,10 @@ import {
 } from "firebase/auth";
 import { MembersProps } from "@/types/members";
 import { nanoid } from "nanoid";
+import { UpcomingEventsProps } from "@/types/UpcomingEvents";
 
 // initialize context for whole application
 const AuthContext = React.createContext({} as ValueProp);
-
-// export const AuthService = ({ children }: ContextProp) => {
-//   const router = useRouter();
-//   const [user, setUser] = useState<User | null>(null);
-//   const [setCurrentUser, cuurentUser] = useState<User | null>(null);
 
 export const AuthService = ({ children }: ContextProp) => {
   const router = useRouter();
@@ -47,6 +43,7 @@ export const AuthService = ({ children }: ContextProp) => {
   const [isReset, setIsReset] = useState<boolean>(false);
   const [mediaUrls, setMediaUrls] = useState<string[]>([]);
   const [members, setMembers] = useState<MembersProps>([]);
+  const [upcomingEvents, setUpcomingEvents] = useState<UpcomingEventsProps>([])
 
   useEffect(() => {
     // Grabs current user object on mount of page
@@ -67,6 +64,21 @@ export const AuthService = ({ children }: ContextProp) => {
     });
     console.log(mediaUrls);
   }, []);
+
+  useEffect(() => {
+      const fetchUpcomingEvents = () => {
+        const eventsArray: UpcomingEventsProps = []
+        const reference = dbRef(db, "upcoming_event/");
+        onValue(reference, (snapshot) => {
+          snapshot.forEach((snap) => {
+            eventsArray.push(snap.val())
+            // console.log('hey')
+          });
+        });
+        setUpcomingEvents(eventsArray);
+      };
+      return fetchUpcomingEvents()
+  },[])
 
   const loginWithGoogle = async () => {
     const Provider = new GoogleAuthProvider();
@@ -249,6 +261,8 @@ export const AuthService = ({ children }: ContextProp) => {
         mediaUrls,
         members,
         setMembers,
+        setUpcomingEvents,
+        upcomingEvents
       }}
     >
       {children}
