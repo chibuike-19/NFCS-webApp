@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { useAuth } from "@/app/context/authService";
 import Link from "next/link";
-import { ref, set, onValue, update } from "firebase/database";
+import { ref, set, onValue, update, DatabaseReference } from "firebase/database";
 import { db } from "@/app/context/firebase";
 import SecondProtectedRoute from "@/app/component/protectedRoute2";
 import { ProfileInfoProps } from "@/types/members";
@@ -11,7 +11,7 @@ import { profile } from "console";
 import { BsTrash } from "react-icons/bs";
 
 const UserDashboard = () => {
-  const { user, logOut, updateUserProfilePicture, setUser, upcomingEvents } = useAuth();
+  const { user, logOut, updateUserProfilePicture, setUser, upcomingEvents, handleDeleteEvent } = useAuth();
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const [photo, setPhoto] = useState<File | null>(null);
@@ -89,10 +89,6 @@ const UserDashboard = () => {
     });
     setPhoto(null);
   };
-
-  const handleDeleteEvent = () => {
-    
-  }
 
   return (
     <div>
@@ -207,13 +203,12 @@ const UserDashboard = () => {
       </form>
       <h1>UPCOMING EVENTS</h1>
       <div className="grid grid-cols-2 gap-4 mb-6">
-        {upcomingEvents.map(event => (
-          <div className="w-[24rem] relative h-[16rem] border-2 border-blue-700 p-3 shadow-md">
-            <p>{event.event_date}</p>
-            <p>{event.event_desc}</p>
-            <p>{event.event_name}</p>
-            <p>{event.event_time}</p>
-            <span onClick={handleDeleteEvent} className="absolute top-2 right-2 cursor-pointer"><BsTrash/></span>
+        {upcomingEvents.map((event, indx) => (
+          <div key={indx} className="w-[24rem] relative h-[16rem] border-2 border-blue-700 p-3 shadow-md">
+            <p>{event.event_details.event_date}</p>
+            <p>{event.event_details.event_desc}</p>
+            <p>{event.event_details.event_name}</p>
+            <p>{event.event_details.event_time}</p>
           </div>
         ))}
       </div>

@@ -9,6 +9,7 @@ import { ToastMessages } from "@/app/component/toastMessages";
 import ForgetPassword from "@/app/component/ForgetPassword";
 import Logo from "../../../public//logo.png";
 import CoverPhoto from '../../../public/imgs/cover-bg.png'
+import { Loader } from "@/app/component/loader";
 
 const Login = () => {
   const {
@@ -25,6 +26,8 @@ const Login = () => {
     handleIsReset,
   } = useAuth();
 
+
+
   const handleRememberMe = (e: any) => {
     if (e.target.checked) {
       setAuthPersistence(true);
@@ -36,7 +39,7 @@ const Login = () => {
   };
   const onFormSubmit = async (e: any) => {
     e.preventDefault();
-    // setLoading(true);
+    setLoading(true);
     try {
       await loginWithEmailAndPassword(
         userEmailRef?.current?.value!,
@@ -44,9 +47,9 @@ const Login = () => {
       );
 
       // ToastMessages("success", false);
-      // setLoading(false);
+      setLoading(false);
     } catch (error: any) {
-      // setLoading(false);
+      setLoading(false);
       // ToastMessages(error.data.message as string, true);
       console.log(error.message);
     }
@@ -54,26 +57,22 @@ const Login = () => {
 
   return (
     <div className="">
-      {loading ? (
-        <div>
-          <FiLoader />
-        </div>
-      ) : (
+      
         <>
           {isReset && <ForgetPassword />}
           <div className="flex overflow-hidden">
-            <div className="basis-[50%] pr8 h-[100vh] lg:flex mobile:hidden w-full">
+            <div className="basis-[50%] h-[100vh] lg:flex mobile:hidden w-full">
               <Image
                 src={CoverPhoto}
                 alt="Photo of the church"
                 className="w-[80rem] h-[100%] object-cover"
               />
             </div>
-            <div className="basis-[50%] pt-4 lg:pl-8 xl:pl-16 min-h-[100vh]">
+            <div className="basis-[50%] grid place-content-center pt-4 min-h-[100vh]">
               <form
                 action=""
                 onSubmit={onFormSubmit}
-                className="flex flex-col gap-5 md:gap-3 text-black"
+                className="flex  flex-col gap-5 md:gap-3 text-black"
               >
                 <div className="flex gap-2 items-center">
                   <Image src={Logo} alt="Logo" width={70} height={70} />
@@ -107,46 +106,21 @@ const Login = () => {
                 <div className="text-right mb-6">
                   <button
                     type="button"
-                    className="text-[#007BA0] font-[600]  w-[20rem] sm:w-[25rem] md:w-[32rem]"
+                    className="text-[#007BA0] font-[600] "
                     onClick={handleIsReset}
                   >
                     Forgot Password?
                   </button>
                 </div>
 
-                <input
+                <button
                   type="submit"
-                  value="Log in"
-                  className="border-2  w-[20rem] sm:w-[25rem] md:w-[32rem] text-[16px] border-[#007BA0] cursor-pointer bg-[#007BA0] py-4 rounded-md text-white font-bold mb-8"
-                />
-
-                <span className="alternative">
-                  OR
-                </span>
-                <div className="flex justify-center  w-[20rem] sm:w-[25rem] md:w-[32rem] mt-8">
-                  <button
-                    onClick={loginWithGoogle}
-                    className="border-2 cursor-pointer w-full flex items-center justify-center gap-2 py-4 border-[#333333] rounded-md"
-                  >
-                    <span>{<FcGoogle />}</span>
-                    <span className="text-black text-[16px]">
-                      Log in with google
-                    </span>
-                  </button>
-                </div>
-                <div className="mt-4 font-[600] text-center  w-[20rem] sm:w-[25rem] md:w-[32rem]">
-                  <span className="text-[#777777] text-lg">
-                    Don't have an account?{" "}
-                  </span>
-                  <span className="mr-1 cursor-pointer text-[#56BCFB]">
-                    <Link href="/register">Sign Up</Link>
-                  </span>
-                </div>
+                  className="border-2 grid place-content-center  w-[20rem] sm:w-[25rem] md:w-[32rem] text-[16px] border-[#007BA0] cursor-pointer bg-[#007BA0] py-4 rounded-md text-white font-bold mb-8"
+                >{loading ? <Loader /> : "Log in"}</button>
               </form>
             </div>
           </div>
         </>
-      )}
     </div>
   );
 };

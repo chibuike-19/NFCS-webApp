@@ -1,6 +1,7 @@
 import { User } from "firebase/auth";
 import { MembersProps } from "./members";
 import {UpcomingEventsProps} from './UpcomingEvents'
+import { DatabaseReference } from "firebase/database";
 
 export type ContextProp = {
   children: React.ReactNode;
@@ -39,4 +40,5 @@ export type ValueProp = {
   setMembers: React.Dispatch<React.SetStateAction<MembersProps>>;
   setUpcomingEvents: React.Dispatch<React.SetStateAction<UpcomingEventsProps>>;
   upcomingEvents: UpcomingEventsProps;
+  handleDeleteEvent: (reference: DatabaseReference) => void;
 };

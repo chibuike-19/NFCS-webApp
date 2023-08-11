@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { ToastMessages } from "../component/toastMessages";
 import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
-import { set, update, ref as dbRef, onValue} from "firebase/database";
+import { set, update, ref as dbRef, onValue, DatabaseReference, remove} from "firebase/database";
 import {
   GoogleAuthProvider,
   signOut,
@@ -71,8 +71,9 @@ export const AuthService = ({ children }: ContextProp) => {
         const reference = dbRef(db, "upcoming_event/");
         onValue(reference, (snapshot) => {
           snapshot.forEach((snap) => {
-            eventsArray.push(snap.val())
-            // console.log('hey')
+            const eventObj = {reference: snap.ref, event_details: snap.val()}
+            eventsArray.push(eventObj)
+            console.log(snap.ref)
           });
         });
         setUpcomingEvents(eventsArray);
@@ -237,6 +238,11 @@ export const AuthService = ({ children }: ContextProp) => {
     console.log("added to media");
   };
 
+  const handleDeleteEvent = (reference: DatabaseReference) => {
+    remove(reference)
+    console.log('done')
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -262,7 +268,8 @@ export const AuthService = ({ children }: ContextProp) => {
         members,
         setMembers,
         setUpcomingEvents,
-        upcomingEvents
+        upcomingEvents,
+        handleDeleteEvent
       }}
     >
       {children}
