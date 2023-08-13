@@ -7,6 +7,7 @@ import { useAuth } from "../context/authService";
 import ProtectedRoute from "../component/protectedRoute";
 import SecondProtectedRoute from "../component/protectedRoute2";
 import { MembersProps } from "@/types/members";
+import SideMenu from "../component/sideMenu";
 
 const Members = () => {
   const { members, setMembers } = useAuth();
@@ -27,22 +28,25 @@ const Members = () => {
   }, []);
 
   return (
-    <div>
-      {members?.map((member, indx) => (
-        <div key={indx}>
-          <div className="w-40 h-40 bg-red-500 rounded-full overflow-hidden mt-5">
-            <img
-              src={member?.profile_url}
-              alt="profile"
-              className="object-contain"
-            />
+    <div className="flex relative">
+      <SideMenu />
+      <section className="w-full pl-6 h-screen overflow-y-scroll overflow-x-hidden bg-[#F1F1F1]">
+        {members?.map((member, indx) => (
+          <div key={indx}>
+            <div className="w-40 h-40 bg-red-500 rounded-full overflow-hidden mt-5">
+              <img
+                src={member?.profile_url}
+                alt="profile"
+                className="object-contain"
+              />
+            </div>
+            <div>
+              <p>{member.nickname}</p>
+              <p>{member.services}</p>
+            </div>
           </div>
-          <div>
-            <p>{member.nickname}</p>
-            <p>{member.services}</p>
-          </div>
-        </div>
-      ))}
+        ))}
+      </section>
     </div>
   );
 };
