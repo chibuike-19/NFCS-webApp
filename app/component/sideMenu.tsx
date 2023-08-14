@@ -3,9 +3,10 @@ import Image from "next/image"
 import Logo from "../../public/logo.png"
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { sidebarMenuData } from "@/data/sidebaMenuData";
+import { sidebarItems, sidebarProps } from "@/types/sidebarProps";
+// import { sidebarMenuData } from "@/data/sidebaMenuData";
 
-const SideMenu = () => {
+const SideMenu = ({sidebarMenuData}: sidebarItems) => {
     const path = usePathname()
     console.log(path)
     return (
@@ -15,7 +16,7 @@ const SideMenu = () => {
           <h2 className="font-bold text-[.8rem]">ST THOMAS MOORE</h2>
         </div>
         <div className="px-4 pt-8">
-          {sidebarMenuData.map((menu, indx) => (
+          {sidebarMenuData?.map((menu, indx) => (
             <Link
               href={menu.link}
               className={`flex pl-3 py-3 rounded-lg items-center gap-2 mb-4 cursor-pointer ${

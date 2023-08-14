@@ -13,6 +13,7 @@ import { BsTrash } from "react-icons/bs";
 import { EventsProps } from "@/types/UpcomingEvents";
 import SideMenu from "@/app/component/sideMenu";
 import DashboardHeader from "@/app/component/dashboardHeader";
+import { AdminsidebarMenuData } from "@/data/sidebaMenuData";
 
 const AdminDashboard = () => {
   const router = useRouter();
@@ -119,9 +120,9 @@ const AdminDashboard = () => {
   return (
     <div>
       <div className="flex relative">
-        <SideMenu />
+        <SideMenu sidebarMenuData={AdminsidebarMenuData} />
         <section className="w-full pl-6 h-screen overflow-y-scroll overflow-x-hidden bg-[#F1F1F1]">
-          <DashboardHeader/>
+          <DashboardHeader />
           <form action="" onSubmit={uploadPhoto} className="w-[95%] mx-auto">
             <input type="file" accept="image/*" onChange={handleChange} />
             <div className="w-40 h-40 bg-red-500 rounded-full overflow-hidden mt-5">
