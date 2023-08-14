@@ -14,6 +14,7 @@ import { EventsProps } from "@/types/UpcomingEvents";
 import SideMenu from "@/app/component/sideMenu";
 import DashboardHeader from "@/app/component/dashboardHeader";
 
+
 const AdminDashboard = () => {
   const router = useRouter();
   const [events, setEvents] = useState<EventsProps>({
