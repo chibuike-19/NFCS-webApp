@@ -4,10 +4,18 @@ import Menu3 from '../public/imgs/people_outline.png'
 import Menu4 from '../public/imgs/perm_media.png'
 import Menu5 from '../public/imgs/Vector.svg'
 
-export const sidebarMenuData = [
+export const AdminsidebarMenuData = [
   { icon: Menu5, item: "Home", link: "/admin/dashboard" },
   { icon: Menu1, item: "Elections", link: "/admin/election" },
   { icon: Menu3, item: "Members", link: "/members" },
   { icon: Menu4, item: "Media", link: "/media" },
   { icon: Menu2, item: "Fun & Games", link: "/admin/games" },
+];
+
+export const UsersidebarMenuData = [
+  { icon: Menu5, item: "Home", link: "/user/dashboard" },
+  { icon: Menu1, item: "Elections", link: "/user/election" },
+  { icon: Menu3, item: "Members", link: "/members" },
+  { icon: Menu4, item: "Media", link: "/media" },
+  { icon: Menu2, item: "Fun & Games", link: "/user/games" },
 ];

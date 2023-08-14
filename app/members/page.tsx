@@ -8,6 +8,7 @@ import ProtectedRoute from "../component/protectedRoute";
 import SecondProtectedRoute from "../component/protectedRoute2";
 import { MembersProps } from "@/types/members";
 import SideMenu from "../component/sideMenu";
+import { AdminsidebarMenuData } from "@/data/sidebaMenuData";
 
 const Members = () => {
   const { members, setMembers } = useAuth();
@@ -29,7 +30,7 @@ const Members = () => {
 
   return (
     <div className="flex relative">
-      <SideMenu />
+      <SideMenu sidebarMenuData={AdminsidebarMenuData} />
       <section className="w-full pl-6 h-screen overflow-y-scroll overflow-x-hidden bg-[#F1F1F1]">
         {members?.map((member, indx) => (
           <div key={indx}>
