@@ -15,6 +15,7 @@ import SideMenu from "@/app/component/sideMenu";
 import DashboardHeader from "@/app/component/dashboardHeader";
 import { AdminsidebarMenuData } from "@/data/sidebaMenuData";
 
+
 const AdminDashboard = () => {
   const router = useRouter();
   const [events, setEvents] = useState<EventsProps>({

@@ -7,8 +7,21 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { ToastMessages } from "../component/toastMessages";
-import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
-import { set, update, ref as dbRef, onValue, DatabaseReference, remove} from "firebase/database";
+import {
+  deleteObject,
+  getDownloadURL,
+  listAll,
+  ref,
+  uploadBytes,
+} from "firebase/storage";
+import {
+  set,
+  update,
+  ref as dbRef,
+  onValue,
+  DatabaseReference,
+  remove,
+} from "firebase/database";
 import {
   GoogleAuthProvider,
   signOut,
@@ -34,6 +47,7 @@ const AuthContext = React.createContext({} as ValueProp);
 export const AuthService = ({ children }: ContextProp) => {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false)
   const [authPersistence, setAuthPersistence] = useState(false);
   const [setCurrentUser, cuurentUser] = useState<User | null>(null);
   const userEmailRef = useRef<HTMLInputElement>(null);
@@ -41,24 +55,34 @@ export const AuthService = ({ children }: ContextProp) => {
   const userNameRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
   const [isReset, setIsReset] = useState<boolean>(false);
-  const [mediaUrls, setMediaUrls] = useState<string[]>([]);
+  const [mediaUrls, setMediaUrls] = useState<{urls: string, fullpath: string}[]>([]);
   const [members, setMembers] = useState<MembersProps>([]);
-  const [upcomingEvents, setUpcomingEvents] = useState<UpcomingEventsProps>([])
+  const [upcomingEvents, setUpcomingEvents] = useState<UpcomingEventsProps>([]);
 
   useEffect(() => {
     // Grabs current user object on mount of page
     const unsubcribe = auth.onAuthStateChanged((user) => {
       setUser(user);
       console.log(user);
+
+      user?.getIdTokenResult(true).then((idToken) => {
+        if (idToken.claims.moderator) {
+          setIsAdmin(true);
+        } else {
+          setIsAdmin(false);
+        }
+      });
     });
     return unsubcribe;
   }, []);
 
+
   useEffect(() => {
     listAll(allMediaRef).then((res) => {
       res.items.forEach((item) => {
+        const fullPath = item.fullPath
         getDownloadURL(item).then((url) => {
-          setMediaUrls((prev) => [...prev, url]);
+          setMediaUrls((prev) => [...prev, {urls: url, fullpath: fullPath}]);
         });
       });
     });
@@ -66,20 +90,20 @@ export const AuthService = ({ children }: ContextProp) => {
   }, []);
 
   useEffect(() => {
-      const fetchUpcomingEvents = () => {
-        const eventsArray: UpcomingEventsProps = []
-        const reference = dbRef(db, "upcoming_event/");
-        onValue(reference, (snapshot) => {
-          snapshot.forEach((snap) => {
-            const eventObj = {reference: snap.ref, event_details: snap.val()}
-            eventsArray.push(eventObj)
-            console.log(snap.ref)
-          });
+    const fetchUpcomingEvents = () => {
+      const eventsArray: UpcomingEventsProps = [];
+      const reference = dbRef(db, "upcoming_event/");
+      onValue(reference, (snapshot) => {
+        snapshot.forEach((snap) => {
+          const eventObj = { reference: snap.ref, event_details: snap.val() };
+          eventsArray.push(eventObj);
+          console.log(snap.ref);
         });
-        setUpcomingEvents(eventsArray);
-      };
-      return fetchUpcomingEvents()
-  },[])
+      });
+      setUpcomingEvents(eventsArray);
+    };
+    return fetchUpcomingEvents();
+  }, []);
 
   const loginWithGoogle = async () => {
     const Provider = new GoogleAuthProvider();
@@ -232,16 +256,32 @@ export const AuthService = ({ children }: ContextProp) => {
   const adminPhotoUpload = async (file: any) => {
     const storageRef = ref(storage, `images/${file.name + nanoid()}`);
     const snapshot = await uploadBytes(storageRef, file);
+    console.log(snapshot.metadata.ref?.fullPath)
+    const photoFullPath = snapshot.metadata.ref?.fullPath ?? "";
 
     const photoURL = await getDownloadURL(storageRef);
-    setMediaUrls((prev) => [...prev, photoURL]);
+    setMediaUrls((prev) => [...prev, {urls: photoURL, fullpath: photoFullPath}]);
     console.log("added to media");
   };
 
+  const deletePhoto = (file: any) => {
+    const desertRef = ref(storage, file);
+
+    deleteObject(desertRef)
+      .then(() => {
+        console.log("File Successfully deleted");
+        const newPhotos = mediaUrls.filter(mediaUrl=>mediaUrl.fullpath !== file);
+        setMediaUrls(newPhotos)
+      })
+      .catch((error) => {
+        console.log("COuldn't delete file");
+      });
+  };
+
   const handleDeleteEvent = (reference: DatabaseReference) => {
-    remove(reference)
-    console.log('done')
-  }
+    remove(reference);
+    console.log("done");
+  };
 
   return (
     <AuthContext.Provider
@@ -269,7 +309,9 @@ export const AuthService = ({ children }: ContextProp) => {
         setMembers,
         setUpcomingEvents,
         upcomingEvents,
-        handleDeleteEvent
+        handleDeleteEvent,
+        deletePhoto,
+        isAdmin,
       }}
     >
       {children}

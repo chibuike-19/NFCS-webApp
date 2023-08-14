@@ -35,10 +35,12 @@ export type ValueProp = {
   isReset: boolean;
   handleIsReset: () => void;
   adminPhotoUpload: (file: any) => Promise<void>;
-  mediaUrls: string[];
+  mediaUrls: {urls: string, fullpath: string}[];
   members: MembersProps;
   setMembers: React.Dispatch<React.SetStateAction<MembersProps>>;
   setUpcomingEvents: React.Dispatch<React.SetStateAction<UpcomingEventsProps>>;
   upcomingEvents: UpcomingEventsProps;
   handleDeleteEvent: (reference: DatabaseReference) => void;
+  deletePhoto: (file: any) => void;
+  isAdmin: boolean;
 };
