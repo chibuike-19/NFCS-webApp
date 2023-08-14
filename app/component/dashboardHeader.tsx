@@ -13,7 +13,7 @@ const DashboardHeader = () => {
         <div className="flex items-center gap-2">
           <Image src={Notification} alt="Notification" />
           <div className="rounded-full overflow-hidden h-16 w-16">
-            <img src={user?.photoURL!} alt="Image of user" />
+            <img src={user?.photoURL!} alt="Image of user" className="object-cover h-full w-full rounded-full" />
           </div>
         </div>
       </div>
