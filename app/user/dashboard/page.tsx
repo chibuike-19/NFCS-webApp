@@ -106,7 +106,7 @@ const UserDashboard = () => {
             ref={inputRef}
           />
           <div className="w-40 h-40 bg-red-500 rounded-full overflow-hidden mt-5">
-            <img src={photoURL} alt="profile" className="object-contain" />
+            <img src={photoURL} alt="profile" className="object-cover h-full w-full rounded-full" />
           </div>
           {loading && <p>Loading...</p>}
           <button
