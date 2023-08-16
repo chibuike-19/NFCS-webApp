@@ -5,7 +5,7 @@ export type sidebarItems = {
     sidebarMenuData: sidebarProps[]
 }
 export type sidebarProps = {
-    icon: StaticImageData;
+    icon: any;
     item: string;
     link: string
 }

@@ -47,7 +47,10 @@ const AuthContext = React.createContext({} as ValueProp);
 export const AuthService = ({ children }: ContextProp) => {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
-  const [isAdmin, setIsAdmin] = useState<boolean>(false)
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [showMenu, setShowMenu] = useState<boolean>(false);
+  const [screenSize, setScreenSize] = useState<number>(0);
   const [authPersistence, setAuthPersistence] = useState(false);
   const [setCurrentUser, cuurentUser] = useState<User | null>(null);
   const userEmailRef = useRef<HTMLInputElement>(null);
@@ -55,7 +58,9 @@ export const AuthService = ({ children }: ContextProp) => {
   const userNameRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
   const [isReset, setIsReset] = useState<boolean>(false);
-  const [mediaUrls, setMediaUrls] = useState<{urls: string, fullpath: string}[]>([]);
+  const [mediaUrls, setMediaUrls] = useState<
+    { urls: string; fullpath: string }[]
+  >([]);
   const [members, setMembers] = useState<MembersProps>([]);
   const [upcomingEvents, setUpcomingEvents] = useState<UpcomingEventsProps>([]);
 
@@ -76,13 +81,27 @@ export const AuthService = ({ children }: ContextProp) => {
     return unsubcribe;
   }, []);
 
+  useEffect(() => {
+    const handleResize = () => setScreenSize(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (screenSize <= 768) {
+      setIsMobile(true);
+    } else {
+      setIsMobile(false);
+    }
+  }, [screenSize]);
 
   useEffect(() => {
     listAll(allMediaRef).then((res) => {
       res.items.forEach((item) => {
-        const fullPath = item.fullPath
+        const fullPath = item.fullPath;
         getDownloadURL(item).then((url) => {
-          setMediaUrls((prev) => [...prev, {urls: url, fullpath: fullPath}]);
+          setMediaUrls((prev) => [...prev, { urls: url, fullpath: fullPath }]);
         });
       });
     });
@@ -104,6 +123,25 @@ export const AuthService = ({ children }: ContextProp) => {
     };
     return fetchUpcomingEvents();
   }, []);
+
+  useEffect(() => {
+    const usersArray: MembersProps = [];
+    const reference = dbRef(db, "users/");
+    onValue(reference, (snapshot) => {
+      snapshot.forEach((snap) => {
+        const res = snap.val();
+        usersArray.push(res);
+        // setMembers([snap.val()])
+        // console.log(usersArray);
+      });
+    });
+    console.log(members);
+    setMembers(usersArray);
+  }, []);
+
+  const toggleMenu = () => {
+    setShowMenu((prevState) => !prevState);
+  };
 
   const loginWithGoogle = async () => {
     const Provider = new GoogleAuthProvider();
@@ -256,11 +294,14 @@ export const AuthService = ({ children }: ContextProp) => {
   const adminPhotoUpload = async (file: any) => {
     const storageRef = ref(storage, `images/${file.name + nanoid()}`);
     const snapshot = await uploadBytes(storageRef, file);
-    console.log(snapshot.metadata.ref?.fullPath)
+    console.log(snapshot.metadata.ref?.fullPath);
     const photoFullPath = snapshot.metadata.ref?.fullPath ?? "";
 
     const photoURL = await getDownloadURL(storageRef);
-    setMediaUrls((prev) => [...prev, {urls: photoURL, fullpath: photoFullPath}]);
+    setMediaUrls((prev) => [
+      ...prev,
+      { urls: photoURL, fullpath: photoFullPath },
+    ]);
     console.log("added to media");
   };
 
@@ -270,8 +311,10 @@ export const AuthService = ({ children }: ContextProp) => {
     deleteObject(desertRef)
       .then(() => {
         console.log("File Successfully deleted");
-        const newPhotos = mediaUrls.filter(mediaUrl=>mediaUrl.fullpath !== file);
-        setMediaUrls(newPhotos)
+        const newPhotos = mediaUrls.filter(
+          (mediaUrl) => mediaUrl.fullpath !== file
+        );
+        setMediaUrls(newPhotos);
       })
       .catch((error) => {
         console.log("COuldn't delete file");
@@ -312,6 +355,10 @@ export const AuthService = ({ children }: ContextProp) => {
         handleDeleteEvent,
         deletePhoto,
         isAdmin,
+        isMobile,
+        showMenu,
+        toggleMenu,
+        setIsMobile,
       }}
     >
       {children}

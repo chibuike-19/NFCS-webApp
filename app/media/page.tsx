@@ -3,8 +3,11 @@
 import ProtectedRoute from "../component/protectedRoute";
 import SecondProtectedRoute from "../component/protectedRoute2";
 import SideMenu from "../component/sideMenu";
+import { UsersidebarMenuData } from "@/data/sidebaMenuData";
+import { AdminsidebarMenuData } from "@/data/sidebaMenuData";
 import { useAuth } from "../context/authService";
 import { MdDelete } from "react-icons/md";
+import DashboardHeader from "../component/dashboardHeader";
 
 interface MediaProps {
   children: React.ReactNode;
@@ -38,8 +41,9 @@ const Media: React.FC<MediaProps> = ({}) => {
 
   return (
     <div className="flex relative">
-      <SideMenu />
+      <SideMenu sidebarMenuData={isAdmin ? AdminsidebarMenuData : UsersidebarMenuData} />
       <section className="w-full pl-6 h-screen overflow-y-scroll overflow-x-hidden bg-[#F1F1F1]">
+        <DashboardHeader/>
         <h1>Media</h1>
         <div className="grid grid-cols-3 gap-3">{AllPhotos}</div>
       </section>

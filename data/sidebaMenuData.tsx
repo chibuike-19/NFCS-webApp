@@ -1,21 +1,37 @@
-import Menu1 from '../public/imgs/Election Box.png'
-import Menu2 from '../public/imgs/game.png'
-import Menu3 from '../public/imgs/people_outline.png'
-import Menu4 from '../public/imgs/perm_media.png'
-import Menu5 from '../public/imgs/Vector.svg'
+import {BiHomeAlt} from 'react-icons/bi'
+import {MdOutlinePermMedia} from 'react-icons/md'
+import {IoGameControllerOutline} from 'react-icons/io5'
+import {MdOutlinePeople} from 'react-icons/md'
+import {MdOutlineHowToVote} from 'react-icons/md'
 
 export const AdminsidebarMenuData = [
-  { icon: Menu5, item: "Home", link: "/admin/dashboard" },
-  { icon: Menu1, item: "Elections", link: "/admin/election" },
-  { icon: Menu3, item: "Members", link: "/members" },
-  { icon: Menu4, item: "Media", link: "/media" },
-  { icon: Menu2, item: "Fun & Games", link: "/admin/games" },
+  { icon: <BiHomeAlt size={25} />, item: "Home", link: "/admin/dashboard" },
+  {
+    icon: <MdOutlineHowToVote size={25} />,
+    item: "Elections",
+    link: "/admin/election",
+  },
+  { icon: <MdOutlinePeople size={25} />, item: "Members", link: "/members" },
+  { icon: <MdOutlinePermMedia size={25} />, item: "Media", link: "/media" },
+  {
+    icon: <IoGameControllerOutline size={25} />,
+    item: "Fun & Games",
+    link: "/admin/games",
+  },
 ];
 
 export const UsersidebarMenuData = [
-  { icon: Menu5, item: "Home", link: "/user/dashboard" },
-  { icon: Menu1, item: "Elections", link: "/user/election" },
-  { icon: Menu3, item: "Members", link: "/members" },
-  { icon: Menu4, item: "Media", link: "/media" },
-  { icon: Menu2, item: "Fun & Games", link: "/user/games" },
+  { icon: <BiHomeAlt size={25} />, item: "Home", link: "/user/dashboard" },
+  {
+    icon: <MdOutlineHowToVote size={25} />,
+    item: "Elections",
+    link: "/user/election",
+  },
+  { icon: <MdOutlinePeople size={25} />, item: "Members", link: "/members" },
+  { icon: <MdOutlinePermMedia size={25} />, item: "Media", link: "/media" },
+  {
+    icon: <IoGameControllerOutline size={25} />,
+    item: "Fun & Games",
+    link: "/user/games",
+  },
 ];

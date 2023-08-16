@@ -9,29 +9,19 @@ import SecondProtectedRoute from "../component/protectedRoute2";
 import { MembersProps } from "@/types/members";
 import SideMenu from "../component/sideMenu";
 import { AdminsidebarMenuData } from "@/data/sidebaMenuData";
+import { UsersidebarMenuData } from "@/data/sidebaMenuData";
+import DashboardHeader from "../component/dashboardHeader";
 
 const Members = () => {
-  const { members, setMembers } = useAuth();
+  const { members, setMembers, isAdmin } = useAuth();
   SecondProtectedRoute();
-  useEffect(() => {
-    const usersArray: MembersProps = [];
-    const reference = ref(db, "users/");
-    onValue(reference, (snapshot) => {
-      snapshot.forEach( (snap) => {
-        const res =  snap.val()
-        usersArray.push(res);
-        // setMembers([snap.val()])
-        // console.log(usersArray);
-      });
-    });
-    console.log(members)
-    setMembers(usersArray);
-  }, []);
+ 
 
   return (
     <div className="flex relative">
-      <SideMenu sidebarMenuData={AdminsidebarMenuData} />
+      <SideMenu sidebarMenuData={isAdmin ? AdminsidebarMenuData : UsersidebarMenuData} />
       <section className="w-full pl-6 h-screen overflow-y-scroll overflow-x-hidden bg-[#F1F1F1]">
+        <DashboardHeader/>
         {members?.map((member, indx) => (
           <div key={indx}>
             <div className="w-40 h-40 bg-red-500 rounded-full overflow-hidden mt-5">

@@ -2,10 +2,10 @@
 
 import { Loader } from "../component/loader";
 import { useAuth } from "../context/authService";
+import { useState, useEffect } from "react";
 
 
 export default function RegistrationLayout({ children }: { children: React.ReactNode }) {
-  const { loading } = useAuth();
 
   return (
     <>

@@ -35,7 +35,7 @@ export type ValueProp = {
   isReset: boolean;
   handleIsReset: () => void;
   adminPhotoUpload: (file: any) => Promise<void>;
-  mediaUrls: {urls: string, fullpath: string}[];
+  mediaUrls: { urls: string; fullpath: string }[];
   members: MembersProps;
   setMembers: React.Dispatch<React.SetStateAction<MembersProps>>;
   setUpcomingEvents: React.Dispatch<React.SetStateAction<UpcomingEventsProps>>;
@@ -43,4 +43,8 @@ export type ValueProp = {
   handleDeleteEvent: (reference: DatabaseReference) => void;
   deletePhoto: (file: any) => void;
   isAdmin: boolean;
+  isMobile: boolean;
+  showMenu: boolean;
+  toggleMenu: () => void;
+  setIsMobile: (value: React.SetStateAction<boolean>) => void;
 };

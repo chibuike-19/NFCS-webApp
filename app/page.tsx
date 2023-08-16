@@ -1,11 +1,18 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { grantModerator } from "@/lib/admin-config";
 import { customInitApp } from "@/lib/firebase-admin-config";
+import { useAuth } from "./context/authService";
+import { useEffect, useState } from "react";
 
-export default async function Home() {
-  customInitApp();
+export default function Home() {
+  // customInitApp();
+
   // await grantModerator();
+
+  
 
   return (
     <main className="flex min-h-screen bg-red-900 flex-col items-center justify-between p-24">
