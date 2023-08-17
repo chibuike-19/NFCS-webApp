@@ -11,6 +11,8 @@ import SideMenu from "../component/sideMenu";
 import { AdminsidebarMenuData } from "@/data/sidebaMenuData";
 import { UsersidebarMenuData } from "@/data/sidebaMenuData";
 import DashboardHeader from "../component/dashboardHeader";
+import defaultImage from "../component/defaultImage";
+
 
 const Members = () => {
   const { members, setMembers, isAdmin } = useAuth();
@@ -26,9 +28,9 @@ const Members = () => {
           <div key={indx}>
             <div className="w-40 h-40 bg-red-500 rounded-full overflow-hidden mt-5">
               <img
-                src={member?.profile_url}
+                src={member?.profile_url ?? defaultImage}
                 alt="profile"
-                className="object-contain"
+                className="object-cover h-full w-full rounded-full"
               />
             </div>
             <div>

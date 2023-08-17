@@ -12,6 +12,8 @@ import { BsTrash } from "react-icons/bs";
 import SideMenu from "@/app/component/sideMenu";
 import DashboardHeader from "@/app/component/dashboardHeader";
 import { UsersidebarMenuData } from "@/data/sidebaMenuData";
+import defaultImage from "@/app/component/defaultImage";
+
 
 const UserDashboard = () => {
   const { user, logOut, updateUserProfilePicture, setUser, upcomingEvents, handleDeleteEvent } = useAuth();
@@ -106,7 +108,7 @@ const UserDashboard = () => {
             ref={inputRef}
           />
           <div className="w-40 h-40 bg-red-500 rounded-full overflow-hidden mt-5">
-            <img src={photoURL} alt="profile" className="object-cover h-full w-full rounded-full" />
+            <img src={photoURL ?? defaultImage} alt="profile" className="object-cover h-full w-full rounded-full" />
           </div>
           {loading && <p>Loading...</p>}
           <button
