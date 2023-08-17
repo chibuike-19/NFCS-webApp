@@ -45,6 +45,7 @@ const Register = () => {
               Name
             </label>
             <input
+            required
               type="text"
               name=""
               ref={userNameRef}
@@ -57,14 +58,14 @@ const Register = () => {
             <label htmlFor="" className="label">
               Email
             </label>
-            <input type="email" ref={userEmailRef} className="input" />
+            <input required type="email" ref={userEmailRef} className="input" />
           </div>
           <div className="flex group flex-col gap-2">
             <label htmlFor="" className="label">
               {" "}
               Password
             </label>
-            <input type="password" ref={userPasswordRef} className="input" />
+            <input required type="password" ref={userPasswordRef} className="input" />
           </div>
 
           <button

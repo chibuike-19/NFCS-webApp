@@ -64,6 +64,8 @@ export const AuthService = ({ children }: ContextProp) => {
   const [members, setMembers] = useState<MembersProps>([]);
   const [upcomingEvents, setUpcomingEvents] = useState<UpcomingEventsProps>([]);
 
+  let ERROR_MESSAGE = 'Something Went Wrong.'
+
   useEffect(() => {
     // Grabs current user object on mount of page
     const unsubcribe = auth.onAuthStateChanged((user) => {
@@ -183,7 +185,7 @@ export const AuthService = ({ children }: ContextProp) => {
       if (authPersistence) {
         setPersistence(auth, browserLocalPersistence).then(async () => {
           const res = await signInWithEmailAndPassword(auth, email, password);
-          // ToastMessages("success", false);
+          ToastMessages("success", false);
           // checks for type of user i.e either admin or normal user and route to their respective pages
           res.user.getIdTokenResult(true).then((idTokenResult) => {
             if (idTokenResult.claims.moderator) {
@@ -208,7 +210,10 @@ export const AuthService = ({ children }: ContextProp) => {
         return;
       }
     } catch (error: any) {
-      ToastMessages(error.message, true);
+      if(error.message === 'Firebase: Error (auth/network-request-failed).'){
+        ERROR_MESSAGE = 'Network failed, please try again'
+      }
+      ToastMessages(ERROR_MESSAGE, true);
       console.log(error.message);
     }
   };

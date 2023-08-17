@@ -7,11 +7,7 @@ import { ref, set, onValue, update, DatabaseReference } from "firebase/database"
 import { db } from "@/app/context/firebase";
 import SecondProtectedRoute from "@/app/component/protectedRoute2";
 import { ProfileInfoProps } from "@/types/members";
-import { profile } from "console";
-import { BsTrash } from "react-icons/bs";
-import SideMenu from "@/app/component/sideMenu";
-import DashboardHeader from "@/app/component/dashboardHeader";
-import { UsersidebarMenuData } from "@/data/sidebaMenuData";
+
 
 const UserDashboard = () => {
   const { user, logOut, updateUserProfilePicture, setUser, upcomingEvents, handleDeleteEvent } = useAuth();
@@ -69,12 +65,6 @@ const UserDashboard = () => {
     });
   };
 
-  const LogOut = () => {
-    logOut;
-    router.push("/");
-  };
-
-
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setPhoto(e.target.files[0]);
@@ -94,10 +84,8 @@ const UserDashboard = () => {
   };
 
   return (
-    <div className="flex relative">
-      <SideMenu sidebarMenuData={UsersidebarMenuData} />
-      <section className="w-full pl-6 h-screen overflow-y-scroll overflow-x-hidden bg-[#F1F1F1]">
-        <DashboardHeader />
+    <div className="">
+      
         <form onSubmit={uploadPhoto}>
           <input
             type="file"
@@ -227,10 +215,6 @@ const UserDashboard = () => {
           see all members
         </Link>
         <br />
-        <button onClick={LogOut} className="mt-[3rem]">
-          log Out
-        </button>
-      </section>
     </div>
   );
 };
