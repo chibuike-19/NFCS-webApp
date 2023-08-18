@@ -1,9 +1,12 @@
+"use client";
+
+import { useAuth } from "@/app/context/authService";
 
 const Profile = () => {
-    return(
-        <div>
-            Profile
-        </div>
-    )
-}
-export default Profile
+  return (
+    <div>
+      <div className=""></div>
+    </div>
+  );
+};
+export default Profile;

@@ -6,7 +6,7 @@ import DashboardHeader from "../component/dashboardHeader";
 import SideMenu from "../component/sideMenu";
 import { AdminsidebarMenuData, UsersidebarMenuData } from "@/data/sidebaMenuData";
 
-export default function RegistrationLayout({
+export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
