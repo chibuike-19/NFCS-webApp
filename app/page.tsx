@@ -23,9 +23,11 @@ export default function Home() {
       <header>
         <LandingPageHeader />
       </header>
-      <main className="flex flex-col items-center justify-between h-screen p-24">
+      <main className="flex flex-col items-center justify-between h-screen ">
         <div>
-          <Carousel images={images}/>
+          <div className="w-[98.9vw]">
+            <Carousel images={images} />
+          </div>
           <h1 className="text-red-600">Welcome!</h1>
           <Link href="/login">Login</Link>
           <Link href="/register">Register</Link>

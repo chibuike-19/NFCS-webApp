@@ -2,12 +2,11 @@
 
 import { useAuth } from "../../context/authService";
 import SecondProtectedRoute from "../../component/protectedRoute2";
-import { AdminsidebarMenuData } from "@/data/sidebaMenuData";
-import { UsersidebarMenuData } from "@/data/sidebaMenuData";
+import defaultImage from "@/app/component/defaultImage";
 
 
 const Members = () => {
-  const { members, setMembers, isAdmin } = useAuth();
+  const { members, setMembers } = useAuth();
   SecondProtectedRoute();
  
 
