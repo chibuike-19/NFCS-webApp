@@ -2,17 +2,12 @@
 
 import React, { FormEvent, useRef, useState } from "react";
 import { useAuth } from "../context/authService";
+import Backdrop from "../UI/Backdrop";
+import Card from "../UI/Card";
 
 interface ForgetPasswordProps {}
 
 // This is for the modal backdrop
-const Backdrop: React.FC<{ children: React.ReactNode }> = (props) => {
-  return (
-    <div className="absolute inset-0 bg-[#00000086] flex justify-center items-center backdrop-blur">
-      {props.children}
-    </div>
-  );
-};
 
 // This is the forget Password Itself
 const ForgetPassword: React.FC<ForgetPasswordProps> = () => {
@@ -24,7 +19,7 @@ const ForgetPassword: React.FC<ForgetPasswordProps> = () => {
     e.preventDefault();
     try {
       await resetPassword(emailRef.current!.value);
-  
+
       // This will change the state showing a message telling user to go and check their mail and login with their new password
       setIsSuccessfull(true);
     } catch (error) {}
@@ -33,7 +28,7 @@ const ForgetPassword: React.FC<ForgetPasswordProps> = () => {
   if (isSuccessfull) {
     return (
       <Backdrop>
-        <div className="flex mx-0 sm:mx-5 bg-white p-2 py-10 rounded-3xl relative">
+        <Card>
           <button
             type="button"
             className="text-white bg-[#56BCFB] rounded-full absolute top-5 right-5 w-8 h-8 cursor-pointer"
@@ -44,7 +39,7 @@ const ForgetPassword: React.FC<ForgetPasswordProps> = () => {
           <h2 className="text-black w-[70%] mx-auto">
             Please check your mail and login with your new password.
           </h2>
-        </div>
+        </Card>
       </Backdrop>
     );
   }

@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import CoverImg from "../public/imgs/cover-bg.png";
 import Carousel from "./component/carousel";
+import LandingPageHeader from "./component/LandingPageHeader";
+import Footer from "./component/Footer";
 
 export default function Home() {
   // customInitApp();
@@ -17,15 +19,18 @@ export default function Home() {
   ];
 
   return (
-    <main className="flex min-h-screen bg-[#e8e7e780] flex-col items-center justify-between p-24">
-      <div>
-        <h1 className="text-red-500">Welcome!</h1>
-        <div className="w-[98.9vw]">
-          <Carousel images={images} />
+    <div className="min-h-screen bg-white">
+      <header>
+        <LandingPageHeader />
+      </header>
+      <main className="flex flex-col items-center justify-between h-screen p-24">
+        <div>
+          <h1 className="text-red-600">Welcome!</h1>
+          <Link href="/login">Login</Link>
+          <Link href="/register">Register</Link>
         </div>
-        <Link href="/login">Login</Link>
-        <Link href="/register">Register</Link>
-      </div>
-    </main>
+      </main>
+      <Footer />
+    </div>
   );
 }

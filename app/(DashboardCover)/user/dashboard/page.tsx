@@ -7,6 +7,7 @@ import { ref, set, onValue, update, DatabaseReference } from "firebase/database"
 import { db } from "@/app/context/firebase";
 import SecondProtectedRoute from "@/app/component/protectedRoute2";
 import { ProfileInfoProps } from "@/types/members";
+import defaultImage from "@/app/component/defaultImage";
 
 
 const UserDashboard = () => {
@@ -94,7 +95,7 @@ const UserDashboard = () => {
             ref={inputRef}
           />
           <div className="w-40 h-40 bg-red-500 rounded-full overflow-hidden mt-5">
-            <img src={photoURL} alt="profile" className="object-cover h-full w-full rounded-full" />
+            <img src={photoURL ?? defaultImage} alt="profile" className="object-cover h-full w-full rounded-full" />
           </div>
           {loading && <p>Loading...</p>}
           <button
