@@ -19,7 +19,7 @@ const DashboardHeader = () => {
         </div>
         <div className="flex items-center gap-2">
           <Image src={Notification} alt="Notification" />
-          <Link href="/profile">
+          <Link href="/profile/personal-info">
             <div className="rounded-full overflow-hidden h-16 w-16">
               <img
                 src={user?.photoURL!}

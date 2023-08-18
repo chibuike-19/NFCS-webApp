@@ -1,6 +1,7 @@
 'use client'
 import { useAuth } from "@/app/context/authService";
 import { ProfileMenu } from "@/data/profileMenu";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 
@@ -9,12 +10,12 @@ export default function ProfileLayout({
 }: {
   children: React.ReactNode;
 }) {
-  
+  const pathname = usePathname()
     const { user } = useAuth();
 
   return (
     <>
-      <div className="mx-[4%] flex border-2 border-black min-h-[22rem]">
+      <div className="mx-[4%] flex mobile:flex-col lg:flex-row border-2 border-black min-h-[22rem]">
         <div className="basis-[25%] border-r-2 border-r-black">
           <div className="h-[6rem] border-b-2 border-b-black">
             <div className="flex items-center gap-2 p-3">
@@ -29,7 +30,11 @@ export default function ProfileLayout({
           </div>
           <div className="pl-6 pt-4">
             {ProfileMenu.map((menu, indx) => (
-              <div key={indx} className="flex items-center gap-2 mb-4">
+              <div
+                style={{ color: menu.link === pathname ? "blue" : "black" }}
+                key={indx}
+                className="flex items-center gap-2 mb-4"
+              >
                 <div>{menu.icon}</div>
                 <div>
                   <Link href={menu.link}>{menu.item}</Link>

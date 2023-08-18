@@ -17,6 +17,8 @@ import {
 import {
   set,
   update,
+  child,
+  get,
   ref as dbRef,
   onValue,
   DatabaseReference,
@@ -143,6 +145,24 @@ export const AuthService = ({ children }: ContextProp) => {
 
   const toggleMenu = () => {
     setShowMenu((prevState) => !prevState);
+  };
+
+  const getUserProfile = async (user: User | null) => {
+    // let profileInfo = {}
+    let reference = dbRef(db)
+    await get(child(reference, `/users/${user?.uid}`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          return snapshot.val()
+        } else {
+          console.log(user?.uid);
+          console.log("No data available");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+      
   };
 
   const loginWithGoogle = async () => {
@@ -364,6 +384,7 @@ export const AuthService = ({ children }: ContextProp) => {
         showMenu,
         toggleMenu,
         setIsMobile,
+        getUserProfile
       }}
     >
       {children}
