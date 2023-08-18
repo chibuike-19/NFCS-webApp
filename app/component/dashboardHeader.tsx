@@ -4,9 +4,10 @@ import Image from "next/image"
 import Link from "next/link"
 import Notification from "../../public/imgs/26. Notification.png"
 import {AiOutlineMenu} from 'react-icons/ai'
+import defaultImage from "./defaultImage"
 
 const DashboardHeader = () => {
-    const {user, toggleMenu, isMobile} = useAuth()
+    const {user, toggleMenu, isMobile} = useAuth();
     return (
       <div className="w-full py-12 px-8 flex justify-between items-center">
         <div className="flex items-center gap-4">
