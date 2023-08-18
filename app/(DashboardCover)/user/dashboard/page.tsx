@@ -7,6 +7,7 @@ import { ref, set, onValue, update, DatabaseReference } from "firebase/database"
 import { db } from "@/app/context/firebase";
 import SecondProtectedRoute from "@/app/component/protectedRoute2";
 import { ProfileInfoProps } from "@/types/members";
+import defaultImage from "@/app/component/defaultImage";
 
 
 const UserDashboard = () => {
