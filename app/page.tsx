@@ -2,22 +2,27 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { grantModerator } from "@/lib/admin-config";
-import { customInitApp } from "@/lib/firebase-admin-config";
-import { useAuth } from "./context/authService";
-import { useEffect, useState } from "react";
+import CoverImg from "../public/imgs/cover-bg.png";
+import Carousel from "./component/carousel";
 
 export default function Home() {
   // customInitApp();
 
   // await grantModerator();
 
-  
+  const images = [
+    { bgImg: "bg-corouselBg", text: "Come Worship with us" },
+    { bgImg: "bg-coverBg", text: "Thank You" },
+    { bgImg: "bg-corouselBg", text: "Good One" },
+  ];
 
   return (
-    <main className="flex min-h-screen bg-red-900 flex-col items-center justify-between p-24">
+    <main className="flex min-h-screen bg-[#e8e7e780] flex-col items-center justify-between p-24">
       <div>
         <h1 className="text-red-500">Welcome!</h1>
+        <div className="w-[98.9vw]">
+          <Carousel images={images} />
+        </div>
         <Link href="/login">Login</Link>
         <Link href="/register">Register</Link>
       </div>
