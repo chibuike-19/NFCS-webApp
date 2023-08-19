@@ -9,6 +9,7 @@ import { MdDelete } from "react-icons/md";
 import { useState, useEffect } from "react";
 import Backdrop from "@/app/UI/Backdrop";
 import Card from "@/app/UI/Card";
+import Modal from "@/app/component/modal";
 
 interface MediaProps {
   children: React.ReactNode;
@@ -16,8 +17,7 @@ interface MediaProps {
 
 
 const Media: React.FC<MediaProps> = ({}) => {
-  const { mediaUrls, deletePhoto, isAdmin } = useAuth();
-  const [modal, setModal] = useState(false);
+  const { mediaUrls, deletePhoto, isAdmin, modal, setModal } = useAuth();
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [fileToDelete, setFileToDelete] = useState<any>(null)
   SecondProtectedRoute();
@@ -41,31 +41,10 @@ const Media: React.FC<MediaProps> = ({}) => {
 
   if (modal) {
     return (
-      <Backdrop>
-        <Card className="p-5">
-          <h1>Are you sure that you want to delete this Picture?</h1>
-          <div className="flex gap-4 justify-center mt-2">
-            <button
-              onClick={() => {
-                setConfirmDelete(true);
-                setModal(false);
-              }}
-              className="border-2 border-blue-500 p-2"
-            >
-              Yes
-            </button>
-            <button
-              onClick={() => {
-                setModal(false);
-              }}
-              className="border-2 border-blue-500 p-2"
-
-            >
-              No
-            </button>
-          </div>
-        </Card>
-      </Backdrop>
+      <Modal
+        onConfirm={setConfirmDelete}
+        mainText="Are you sure that you want to delete this Picture?"
+      />
     );
   }
 
