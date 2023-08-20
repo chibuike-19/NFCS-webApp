@@ -9,34 +9,41 @@ import { MdDelete } from "react-icons/md";
 import { useState, useEffect } from "react";
 import Backdrop from "@/app/UI/Backdrop";
 import Card from "@/app/UI/Card";
+import { FcDownload } from "react-icons/fc";
 
 interface MediaProps {
   children: React.ReactNode;
 }
 
-
 const Media: React.FC<MediaProps> = ({}) => {
   const { mediaUrls, deletePhoto, isAdmin } = useAuth();
   const [modal, setModal] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
-  const [fileToDelete, setFileToDelete] = useState<any>(null)
+  const [fileToDelete, setFileToDelete] = useState<any>(null);
   SecondProtectedRoute();
 
-  useEffect(()=>{
+  useEffect(() => {
     //If true, carry out the function else return
-    if(!confirmDelete) return
+    if (!confirmDelete) return;
 
     deletePhoto(fileToDelete);
 
-    setConfirmDelete(false)
+    setConfirmDelete(false);
     console.log("deleted");
-  }, [confirmDelete])
+  }, [confirmDelete]);
 
   const handleDeletePhoto = (file: any) => {
     //Open modal
     setModal(true);
-    setFileToDelete(file)
-    
+    setFileToDelete(file);
+  };
+
+  const handleDownloadPhoto = (imageUrl: string) => {
+    const link = document.createElement("a");
+    link.href = imageUrl;
+    link.download = "NFCS Photo.png";
+    link.click();
+    console.log("Downloaded");
   };
 
   if (modal) {
@@ -59,7 +66,6 @@ const Media: React.FC<MediaProps> = ({}) => {
                 setModal(false);
               }}
               className="border-2 border-blue-500 p-2"
-
             >
               No
             </button>
@@ -76,10 +82,16 @@ const Media: React.FC<MediaProps> = ({}) => {
     >
       <button
         onClick={() => handleDeletePhoto(photo.fullpath)}
-        className={isAdmin ? "absolute top-3 right-3 cursor-pointer" : "hidden"}
+        className={isAdmin ? "absolute top-3 left-3 cursor-pointer" : "hidden"}
       >
         <MdDelete className="text-red-600 text-xl" />
       </button>
+      <a href={photo.urls} download="NFCS Photo.png" onClick={()=>        {console.log(photo.urls)}
+}
+        className="absolute top-3 right-3 cursor-pointer"
+      >
+        <FcDownload />
+      </a>
       <img src={photo.urls} alt="media" className="object-contain" />
     </div>
   ));

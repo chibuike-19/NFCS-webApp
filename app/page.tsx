@@ -1,8 +1,6 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
-import CoverImg from "../public/imgs/cover-bg.png";
+
 import Carousel from "./component/carousel";
 import LandingPageHeader from "./component/LandingPageHeader";
 import Footer from "./component/Footer";
@@ -28,9 +26,6 @@ export default function Home() {
           <div className="w-[98.9vw]">
             <Carousel images={images} />
           </div>
-          <h1 className="text-red-600">Welcome!</h1>
-          <Link href="/login">Login</Link>
-          <Link href="/register">Register</Link>
         </div>
       </main>
       <Footer />

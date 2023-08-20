@@ -19,7 +19,7 @@ const LandingPageHeader: React.FC<AppProps> = ({}) => {
     </li>
   ));
   return (
-    <section className="flex flex-col md:flex-row gap-5 justify-between bg-white text-themeBlue py-3 md:py-1 px-8 relative shadow-[0_0px_30px_0px_rgba(0,0,0,0.3)]">
+    <section className="flex flex-col md:flex-row gap-5 justify-between bg-white text-themeBlue py-3 md:py-1 px-8 relative shadow-[0_0px_30px_0px_rgba(0,0,0,0.3)] z-10">
       <div className="flex items-center justify-between">
         <div className="flex gap-2 items-center">
           <Image src={Logo} alt="Logo" width={60} height={60} />
