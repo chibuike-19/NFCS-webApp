@@ -21,7 +21,7 @@ export default function Home() {
       <header>
         <LandingPageHeader />
       </header>
-      <main className="flex flex-col items-center justify-between h-screen ">
+      <main className="flex flex-col items-center justify-between">
         <div>
           <div className="w-[98.9vw]">
             <Carousel images={images} />
