@@ -15,8 +15,8 @@ const SideMenu = ({ sidebarMenuData }: sidebarItems) => {
   console.log(isMobile);
 
   const SignOut = () => {
-    logOut();
-    router.push("/");
+    setTimeout(() => logOut(), 0)
+      router.push("/");
   };
   return (
     <div

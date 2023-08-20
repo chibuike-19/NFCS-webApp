@@ -277,7 +277,13 @@ export const AuthService = ({ children }: ContextProp) => {
   };
 
   const logOut = async () => {
-    return signOut(auth);
+    try{
+      await signOut(auth);
+    
+    }catch(err){
+      console.log(err)
+
+    }
   };
 
   const resetPassword = async (email: string) => {
