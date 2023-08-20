@@ -48,4 +48,6 @@ export type ValueProp = {
   toggleMenu: () => void;
   setIsMobile: (value: React.SetStateAction<boolean>) => void;
   getUserProfile: (user: User | null) => Promise<void>;
+  modal: boolean;
+  setModal: (value: React.SetStateAction<boolean>) => void;
 };

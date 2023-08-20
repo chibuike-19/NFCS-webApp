@@ -64,6 +64,7 @@ export const AuthService = ({ children }: ContextProp) => {
     { urls: string; fullpath: string }[]
   >([]);
   const [members, setMembers] = useState<MembersProps>([]);
+  const [modal, setModal] = useState<boolean>(false)
   const [upcomingEvents, setUpcomingEvents] = useState<UpcomingEventsProps>([]);
 
   let ERROR_MESSAGE = 'Something Went Wrong.'
@@ -170,7 +171,6 @@ export const AuthService = ({ children }: ContextProp) => {
 
     try {
       const userCred = await signInWithPopup(auth, Provider);
-      // setUser(userCred.user);
       // checks for type of user i.e either admin or normal user and route to their respective pages
 
       update(dbRef(db, "users/" + userCred.user.uid), {
@@ -384,7 +384,9 @@ export const AuthService = ({ children }: ContextProp) => {
         showMenu,
         toggleMenu,
         setIsMobile,
-        getUserProfile
+        getUserProfile,
+        modal,
+        setModal
       }}
     >
       {children}
