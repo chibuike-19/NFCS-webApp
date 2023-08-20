@@ -17,7 +17,8 @@ interface MediaProps {
 }
 
 const Media: React.FC<MediaProps> = ({}) => {
-  const { mediaUrls, deletePhoto, isAdmin, modal, setModal } = useAuth();
+  const { mediaUrls, deletePhoto, isAdmin, modal, setModal, downloadPhoto } =
+    useAuth();
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [fileToDelete, setFileToDelete] = useState<any>(null);
   SecondProtectedRoute();
@@ -35,15 +36,8 @@ const Media: React.FC<MediaProps> = ({}) => {
   const handleDeletePhoto = (file: any) => {
     //Open modal
     setModal(true);
-    setFileToDelete(file);
-  };
 
-  const handleDownloadPhoto = (imageUrl: string) => {
-    const link = document.createElement("a");
-    link.href = imageUrl;
-    link.download = "NFCS Photo.png";
-    link.click();
-    console.log("Downloaded");
+    setFileToDelete(file);
   };
 
   if (modal) {
@@ -66,12 +60,14 @@ const Media: React.FC<MediaProps> = ({}) => {
       >
         <MdDelete className="text-red-600 text-xl" />
       </button>
-      <a href={photo.urls} download="NFCS Photo.png" onClick={()=>        {console.log(photo.urls)}
-}
+      <button
+        onClick={() => {
+          downloadPhoto(photo.fullpath);
+        }}
         className="absolute top-3 right-3 cursor-pointer"
       >
         <FcDownload />
-      </a>
+      </button>
       <img src={photo.urls} alt="media" className="object-contain" />
     </div>
   ));

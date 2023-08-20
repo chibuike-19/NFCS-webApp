@@ -351,6 +351,41 @@ export const AuthService = ({ children }: ContextProp) => {
     console.log("done");
   };
 
+  const downloadPhoto = (file: any) => {
+    const httpsReference = ref(storage, file);
+
+    getDownloadURL(httpsReference)
+  .then((url) => {
+    
+    // This can be downloaded directly:
+    const xhr = new XMLHttpRequest();
+    xhr.responseType = 'blob';
+    xhr.onload = (event) => {
+      const blob = xhr.response;
+      // Create a temporary object URL for the blob
+    const objectURL = URL.createObjectURL(blob);
+
+    // Create a link and simulate a click to trigger download
+    const link = document.createElement('a');
+    link.href = objectURL;
+    link.download = 'NFCS_image.jpg'; // Set the desired file name
+    link.click();
+
+    // Clean up by revoking the object URL
+    URL.revokeObjectURL(objectURL);
+      
+      console.log(blob)
+    };
+    xhr.open('GET', url);
+    xhr.send();
+
+  })
+  .catch((error) => {
+    // Handle any errors
+    console.log(error)
+  })
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -386,7 +421,8 @@ export const AuthService = ({ children }: ContextProp) => {
         setIsMobile,
         getUserProfile,
         modal,
-        setModal
+        setModal,
+        downloadPhoto,
       }}
     >
       {children}
