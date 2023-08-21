@@ -1,6 +1,6 @@
 import { User } from "firebase/auth";
 import { MembersProps } from "./members";
-import {UpcomingEventsProps} from './UpcomingEvents'
+import { UpcomingEventsProps } from "./UpcomingEvents";
 import { DatabaseReference } from "firebase/database";
 
 export type ContextProp = {
@@ -50,4 +50,5 @@ export type ValueProp = {
   getUserProfile: (user: User | null) => Promise<void>;
   modal: boolean;
   setModal: (value: React.SetStateAction<boolean>) => void;
+  downloadPhoto: (file: any) => void;
 };

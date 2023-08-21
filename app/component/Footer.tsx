@@ -29,7 +29,7 @@ const Footer: React.FC<FooterProps> = ({}) => {
           <h3 className="text-[1rem]">Contact Us</h3>
           <div className="flex items-center gap-1 justify-center sm:justify-start">
             <GrLocation />
-            <address>131 Association avenue</address>
+            <address className="not-italic">131 Association avenue</address>
           </div>
           <div className="flex justify-center sm:justify-start items-center gap-1">
             <GrMail />

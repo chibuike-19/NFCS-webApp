@@ -10,33 +10,34 @@ import { useState, useEffect } from "react";
 import Backdrop from "@/app/UI/Backdrop";
 import Card from "@/app/UI/Card";
 import Modal from "@/app/component/modal";
+import { FcDownload } from "react-icons/fc";
 
 interface MediaProps {
   children: React.ReactNode;
 }
 
-
 const Media: React.FC<MediaProps> = ({}) => {
-  const { mediaUrls, deletePhoto, isAdmin, modal, setModal } = useAuth();
+  const { mediaUrls, deletePhoto, isAdmin, modal, setModal, downloadPhoto } =
+    useAuth();
   const [confirmDelete, setConfirmDelete] = useState(false);
-  const [fileToDelete, setFileToDelete] = useState<any>(null)
+  const [fileToDelete, setFileToDelete] = useState<any>(null);
   SecondProtectedRoute();
 
-  useEffect(()=>{
+  useEffect(() => {
     //If true, carry out the function else return
-    if(!confirmDelete) return
+    if (!confirmDelete) return;
 
     deletePhoto(fileToDelete);
 
-    setConfirmDelete(false)
+    setConfirmDelete(false);
     console.log("deleted");
-  }, [confirmDelete])
+  }, [confirmDelete]);
 
   const handleDeletePhoto = (file: any) => {
     //Open modal
     setModal(true);
-    setFileToDelete(file)
-    
+
+    setFileToDelete(file);
   };
 
   if (modal) {
@@ -55,9 +56,17 @@ const Media: React.FC<MediaProps> = ({}) => {
     >
       <button
         onClick={() => handleDeletePhoto(photo.fullpath)}
-        className={isAdmin ? "absolute top-3 right-3 cursor-pointer" : "hidden"}
+        className={isAdmin ? "absolute top-3 left-3 cursor-pointer" : "hidden"}
       >
         <MdDelete className="text-red-600 text-xl" />
+      </button>
+      <button
+        onClick={() => {
+          downloadPhoto(photo.fullpath);
+        }}
+        className="absolute top-3 right-3 cursor-pointer"
+      >
+        <FcDownload />
       </button>
       <img src={photo.urls} alt="media" className="object-contain" />
     </div>

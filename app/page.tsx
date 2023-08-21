@@ -1,8 +1,6 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
-import CoverImg from "../public/imgs/cover-bg.png";
+
 import Carousel from "./component/carousel";
 import LandingPageHeader from "./component/LandingPageHeader";
 import Footer from "./component/Footer";
@@ -19,18 +17,15 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white overflow-x-hidden">
       <header>
         <LandingPageHeader />
       </header>
-      <main className="flex flex-col items-center justify-between h-screen ">
+      <main className="flex flex-col items-center justify-between">
         <div>
           <div className="w-[98.9vw]">
             <Carousel images={images} />
           </div>
-          <h1 className="text-red-600">Welcome!</h1>
-          <Link href="/login">Login</Link>
-          <Link href="/register">Register</Link>
         </div>
       </main>
       <Footer />
