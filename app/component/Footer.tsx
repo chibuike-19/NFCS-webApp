@@ -9,6 +9,8 @@ import { GrLocation, GrMail } from "react-icons/gr";
 interface FooterProps {}
 
 const Footer: React.FC<FooterProps> = ({}) => {
+  const currentYear = new Date().getFullYear();
+
   return (
     <footer className="bg-white px-8 pb-3 pt-10 shadow-[0_20px_40px_0px_rgba(0,0,0,1)] font-[500] text-sm">
       <section className="grid gap-7 md:gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-5 justify-center items-center sm:items-start text-center sm:text-left mb-10 md:mb-16">
@@ -57,7 +59,7 @@ const Footer: React.FC<FooterProps> = ({}) => {
           </div>
         </div>
       </section>
-      <p className="text-center">(c) 2023. St. Thomas Moore. All rights reserved.</p>
+      <p className="text-center">(c) {currentYear}. St. Thomas Moore. All rights reserved.</p>
     </footer>
   );
 };
