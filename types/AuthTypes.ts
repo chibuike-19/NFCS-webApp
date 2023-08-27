@@ -35,7 +35,26 @@ export type ValueProp = {
   isReset: boolean;
   handleIsReset: () => void;
   adminPhotoUpload: (file: any) => Promise<void>;
-  mediaUrls: { urls: string; fullpath: string }[];
+  mediaUrls: {
+    urls: string;
+    fullpath: string;
+    likes: number;
+    liked: boolean;
+    disliked: boolean;
+    likedBy: string[]
+  }[];
+  setMediaUrls: React.Dispatch<
+    React.SetStateAction<
+      {
+        urls: string;
+        fullpath: string;
+        likes: number;
+        liked: boolean;
+        disliked: boolean;
+        likedBy: string[];
+      }[]
+    >
+  >;
   members: MembersProps;
   setMembers: React.Dispatch<React.SetStateAction<MembersProps>>;
   setUpcomingEvents: React.Dispatch<React.SetStateAction<UpcomingEventsProps>>;

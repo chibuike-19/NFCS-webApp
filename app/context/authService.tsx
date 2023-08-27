@@ -61,7 +61,7 @@ export const AuthService = ({ children }: ContextProp) => {
   const [loading, setLoading] = useState(false);
   const [isReset, setIsReset] = useState<boolean>(false);
   const [mediaUrls, setMediaUrls] = useState<
-    { urls: string; fullpath: string }[]
+    { urls: string; fullpath: string, likes: number, liked: boolean, disliked: boolean, likedBy: string[] }[]
   >([]);
   const [members, setMembers] = useState<MembersProps>([]);
   const [modal, setModal] = useState<boolean>(false)
@@ -106,7 +106,7 @@ export const AuthService = ({ children }: ContextProp) => {
       res.items.forEach((item) => {
         const fullPath = item.fullPath;
         getDownloadURL(item).then((url) => {
-          setMediaUrls((prev) => [...prev, { urls: url, fullpath: fullPath }]);
+          setMediaUrls((prev) => [...prev, { urls: url, fullpath: fullPath, likes: 0, liked: false, disliked: false, likedBy: ['']}]);
         });
       });
     });
@@ -331,7 +331,14 @@ export const AuthService = ({ children }: ContextProp) => {
     const photoURL = await getDownloadURL(storageRef);
     setMediaUrls((prev) => [
       ...prev,
-      { urls: photoURL, fullpath: photoFullPath },
+      {
+        urls: photoURL,
+        fullpath: photoFullPath,
+        likes: 0,
+        liked: false,
+        disliked: false,
+        likedBy: ['']
+      },
     ]);
     console.log("added to media");
   };
@@ -414,6 +421,7 @@ export const AuthService = ({ children }: ContextProp) => {
         handleIsReset,
         adminPhotoUpload,
         mediaUrls,
+        setMediaUrls,
         members,
         setMembers,
         setUpcomingEvents,
