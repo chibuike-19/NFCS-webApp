@@ -21,7 +21,7 @@ const MediaContent = () => {
   } = useAuth();
   const [fileToDelete, setFileToDelete] = useState<any>(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
-  const [toggleLike, setToggleLike] = useState(false);
+  const [toggleMenu, setToggleMenu] = useState(false);
 
   useEffect(() => {
     //If true, carry out the function else return
@@ -41,6 +41,18 @@ const MediaContent = () => {
   };
 
 
+  const ToggledMenu = (fullpath: string) => {
+    setMediaUrls((prev) =>
+      prev.map((image) =>
+        image.fullpath === fullpath
+          ? {
+              ...image,
+              showmenu: !image.showmenu
+            }
+          : image
+      )
+    );
+  }
 
   const toggleLiked = (fullPath: String) => {
     setMediaUrls((prev) =>
@@ -75,22 +87,32 @@ const MediaContent = () => {
             >
               <div className=" h-[16rem] relative">
                 <div
-                  className={`absolute right-2 flex flex-col gap-4 top-12 py-2 px-8 border-2 border-white bg-white text-black`}
+                  className={`absolute ${!photo.showmenu && 'hidden'} right-2 rounded-lg flex flex-col gap-4 top-12 py-2 px-8 border-2 border-white bg-white text-black`}
                 >
                   {isAdmin && (
-                    <button onClick={() => handleDeletePhoto(photo.fullpath)}>
-                      Delete <span><MdDelete/></span>
+                    <button
+                      className="flex gap-2 items-center"
+                      onClick={() => handleDeletePhoto(photo.fullpath)}
+                    >
+                      Delete{" "}
+                      <span>
+                        <MdDelete />
+                      </span>
                     </button>
                   )}
                   <button
+                    className="flex gap-2 items-center"
                     onClick={() => {
                       downloadPhoto(photo.fullpath);
                     }}
                   >
-                    Download <span><FcDownload/></span>
+                    Download{" "}
+                    <span>
+                      <FcDownload />
+                    </span>
                   </button>
                 </div>
-                <button className="absolute top-3 right-3 cursor-pointer">
+                <button onClick={() => ToggledMenu(photo.fullpath)} className="absolute top-3 right-3 cursor-pointer">
                   <BsThreeDotsVertical color="white" size={25} />
                 </button>
                 <img
@@ -100,7 +122,9 @@ const MediaContent = () => {
                 />
               </div>
               <div className="flex justify-between items-center p-4">
-                <p>{`Liked by ${photo.likedBy[0]} and ${photo.likedBy.length - 1} others`}</p>
+                <p>{`Liked by ${photo.likedBy[0]} and ${
+                  photo.likedBy.length - 1
+                } others`}</p>
                 <div className="flex items-center gap-2">
                   {photo.liked ? (
                     <FcLike

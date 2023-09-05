@@ -39,7 +39,7 @@ import {
   updateProfile,
   getAuth,
 } from "firebase/auth";
-import { MembersProps } from "@/types/members";
+import { MembersProps, ProfileInfoProps } from "@/types/members";
 import { nanoid } from "nanoid";
 import { UpcomingEventsProps } from "@/types/UpcomingEvents";
 
@@ -61,7 +61,7 @@ export const AuthService = ({ children }: ContextProp) => {
   const [loading, setLoading] = useState(false);
   const [isReset, setIsReset] = useState<boolean>(false);
   const [mediaUrls, setMediaUrls] = useState<
-    { urls: string; fullpath: string, likes: number, liked: boolean, disliked: boolean, likedBy: string[] }[]
+    { urls: string; fullpath: string, likes: number, liked: boolean, disliked: boolean, likedBy: string[], showmenu: boolean }[]
   >([]);
   const [members, setMembers] = useState<MembersProps>([]);
   const [modal, setModal] = useState<boolean>(false)
@@ -106,7 +106,7 @@ export const AuthService = ({ children }: ContextProp) => {
       res.items.forEach((item) => {
         const fullPath = item.fullPath;
         getDownloadURL(item).then((url) => {
-          setMediaUrls((prev) => [...prev, { urls: url, fullpath: fullPath, likes: 0, liked: false, disliked: false, likedBy: ['']}]);
+          setMediaUrls((prev) => [...prev, { urls: url, fullpath: fullPath, likes: 0, liked: false, disliked: false, likedBy: [''], showmenu: false}]);
         });
       });
     });
@@ -149,20 +149,28 @@ export const AuthService = ({ children }: ContextProp) => {
   };
 
   const getUserProfile = async (user: User | null) => {
-    // let profileInfo = {}
-    let reference = dbRef(db)
-    await get(child(reference, `/users/${user?.uid}`))
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          return snapshot.val()
-        } else {
-          console.log(user?.uid);
-          console.log("No data available");
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    let profileInfo: ProfileInfoProps = {
+      date_of_birth: "",
+      department: "",
+      services: "",
+      favorite_life_quote: "",
+      twitter_url: " ",
+      insta_url: "",
+      phone_number: "",
+      gender: "",
+      linkedin_url: "",
+      nickname: "",
+    };
+    let reference = dbRef(db, `/users/${user?.uid}`);
+    onValue(reference, (snapshot) => {
+      console.log(snapshot.toJSON())
+      profileInfo = snapshot.toJSON() as ProfileInfoProps
+      // snapshot.forEach((snap) => {
+      //   console.log(snap.toJSON())
+      //   // console.log(snap.val())
+      // })
+    })
+    return profileInfo
       
   };
 
@@ -337,7 +345,8 @@ export const AuthService = ({ children }: ContextProp) => {
         likes: 0,
         liked: false,
         disliked: false,
-        likedBy: ['']
+        likedBy: [''],
+        showmenu: false
       },
     ]);
     console.log("added to media");

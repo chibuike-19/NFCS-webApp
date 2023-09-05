@@ -57,52 +57,34 @@ const Media: React.FC<MediaProps> = ({}) => {
     );
   }
 
-  const AllPhotos = mediaUrls.map((photo, index) => (
-    <div
-      key={index}
-      className="border-2 bg-white h-[22rem] border-black hover:transform hover:scale-110 transition .3 ease-linear"
-    >
-      <div className=" h-[16rem] relative">
-        <button
-          onClick={() => handleDeletePhoto(photo.fullpath)}
-          className={
-            isAdmin ? "absolute top-3 left-3 cursor-pointer" : "hidden"
-          }
-        >
-          <MdDelete className="text-red-600 text-xl" />
-        </button>
-        <button
-          onClick={() => {
-            downloadPhoto(photo.fullpath);
-          }}
-          className="absolute top-3 right-3 cursor-pointer"
-        >
-          <FcDownload />
-        </button>
-        <img
-          src={photo.urls}
-          alt="media"
-          className="object-cover w-full h-full"
-        />
-      </div>
-      <div className="flex justify-between items-center p-4">
-        <p>Liked by @emmanuel and 4 others</p>
-        <FcLikePlaceholder color="#F3F6F7" size={30} className="cursor-pointer"/>
-      </div>
-    </div>
-  ));
 
   return (
     <div className="">
-      <h1 className="text-3xl">
-        Welcome To <span className="text-[#007BA0]">NFSC Unilag</span> media
-        gallery
-      </h1>
-      <p className="text-sm pb-6">
-        There's a total of <span className="text-[#007BA0]">{imagesNum}</span> images
-        available for you to view and download
-      </p>
-      <div className=""><MediaContent/></div>
+      <div className="flex justify-between">
+        <div>
+          {" "}
+          <h1 className="text-3xl">
+            Welcome To <span className="text-[#007BA0]">NFSC Unilag</span> media
+            gallery
+          </h1>
+          <p className="text-sm pb-6">
+            There's a total of{" "}
+            <span className="text-[#007BA0]">{imagesNum}</span> images available
+            for you to view and download
+          </p>
+        </div>
+        <div>
+          {isAdmin && (
+            <button className="bg-[#007BA0] rounded-md py-4 px-6 text-white">
+              Upload Photo
+            </button>
+          )}
+        </div>
+      </div>
+
+      <div className="">
+        <MediaContent />
+      </div>
     </div>
   );
 };

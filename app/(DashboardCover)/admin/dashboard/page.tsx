@@ -40,7 +40,7 @@ const AdminDashboard = () => {
   } = useAuth();
   const [mediaInput, setMediaInput] = useState<File | null>(null);
 
-  SecondProtectedRoute();
+  // SecondProtectedRoute();
 
   useEffect(() => {
     console.log(user);

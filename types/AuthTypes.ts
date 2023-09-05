@@ -41,7 +41,8 @@ export type ValueProp = {
     likes: number;
     liked: boolean;
     disliked: boolean;
-    likedBy: string[]
+    likedBy: string[];
+    showmenu: boolean;
   }[];
   setMediaUrls: React.Dispatch<
     React.SetStateAction<
@@ -52,6 +53,7 @@ export type ValueProp = {
         liked: boolean;
         disliked: boolean;
         likedBy: string[];
+        showmenu: boolean;
       }[]
     >
   >;
@@ -66,7 +68,7 @@ export type ValueProp = {
   showMenu: boolean;
   toggleMenu: () => void;
   setIsMobile: (value: React.SetStateAction<boolean>) => void;
-  getUserProfile: (user: User | null) => Promise<void>;
+  getUserProfile: (user: User | null) => Promise<object>;
   modal: boolean;
   setModal: (value: React.SetStateAction<boolean>) => void;
   downloadPhoto: (file: any) => void;
