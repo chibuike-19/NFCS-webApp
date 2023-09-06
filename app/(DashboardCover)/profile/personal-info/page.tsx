@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/app/context/authService";
-import { ProfileInfoProps } from "../../../../types/members";
+import { ProfileInfoProps, UserProfileProps } from "../../../../types/members";
 
 const PersonalInformation = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -18,33 +18,33 @@ const PersonalInformation = () => {
     <div>
       <div>
         <p className="text-[20px] font-bold pl-6 pt-4">Personal Information</p>
-        <span className="text-gray-600 text-sm pt-4 pl-6">
+        {/* <span className="text-gray-600 text-sm pt-4 pl-6">
           {currentStep == 1 ? "Basic Info About you" : "Additional info"}
-        </span>
+        </span> */}
       </div>
-      <div className="flex gap-4 items-center">
-        <p onClick={() => switchPage(1)}>Basic Info</p>
-        <p onClick={() => switchPage(2)}>Additional Info</p>
+      <div className="flex pl-6 border-b-2 border-b-black gap-4 items-center">
+        <p className={`${currentStep == 1 && 'border-b-4 border-b-blue-500'} cursor-pointer`} onClick={() => switchPage(1)}>Basic Info</p>
+        <p className={`${currentStep == 2 && 'border-b-4 border-b-blue-500'} cursor-pointer`} onClick={() => switchPage(2)}>Additional Info</p>
       </div>
       <div>
         {currentStep == 1 ? (
           <div>
             {isUpdate ? (
               <>
-                <UpdateInfo/>
+                <UpdateInfo />
               </>
             ) : (
-              <BasiInfo/>
+              <BasiInfo />
             )}
           </div>
         ) : (
           <div>
             {isUpdate ? (
               <>
-                <UpdateInfo/>
+                <UpdateInfo />
               </>
             ) : (
-              <BasiInfo/>
+              <BasiInfo />
             )}
           </div>
         )}
@@ -57,65 +57,50 @@ export default PersonalInformation;
 
 
 export const BasiInfo = () => {
-  const [profileInfo, setProfileInfo] = useState<ProfileInfoProps>({
-    date_of_birth: "",
-    department: "",
-    services: "",
-    favorite_life_quote: "",
-    twitter_url: " ",
-    insta_url: "",
-    phone_number: "",
-    gender: "",
-    linkedin_url: "",
-    nickname: "",
-  });
-  const { getUserProfile, user } = useAuth();
-
-  useEffect(() => {
-    let profileInfo = getUserProfile(user);
-    setProfileInfo(profileInfo as unknown as ProfileInfoProps)
-  }, []);
+ const {userProfileInfo} = useAuth()
+  
+ const {nickname, date_of_birth, favorite_life_qoute, gender, insta_link, services, twitter_link, linkedin_link, phone_number, department} = userProfileInfo
 
   return (
     <div>
       <div>
-        <p>{profileInfo?.nickname}</p>
+        <p>{nickname}</p>
         <p></p>
       </div>
       <div>
-        <p>{profileInfo.date_of_birth}</p>
+        <p>{date_of_birth}</p>
         <p></p>
       </div>
       <div>
-        <p>{profileInfo.department}</p>
+        <p>{department}</p>
         <p></p>
       </div>
       <div>
-        <p>{profileInfo.favorite_life_quote}</p>
+        <p>{favorite_life_qoute}</p>
         <p></p>
       </div>
       <div>
-        <p>{profileInfo.gender}</p>
+        <p>{gender}</p>
         <p></p>
       </div>
       <div>
-        <p>{profileInfo.insta_url}</p>
+        <p>{insta_link}</p>
         <p></p>
       </div>
       <div>
-        <p>{profileInfo.services}</p>
+        <p>{services}</p>
         <p></p>
       </div>
       <div>
-        <p>{profileInfo.twitter_url}</p>
+        <p>{twitter_link}</p>
         <p></p>
       </div>
       <div>
-        <p>{profileInfo.linkedin_url}</p>
+        <p>{linkedin_link}</p>
         <p></p>
       </div>
       <div>
-        <p>{profileInfo.phone_number}</p>
+        <p>{phone_number}</p>
         <p></p>
       </div>
     </div>

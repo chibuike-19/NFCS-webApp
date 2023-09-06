@@ -39,7 +39,7 @@ import {
   updateProfile,
   getAuth,
 } from "firebase/auth";
-import { MembersProps, ProfileInfoProps } from "@/types/members";
+import { MembersProps, ProfileInfoProps, UserProfileProps } from "@/types/members";
 import { nanoid } from "nanoid";
 import { UpcomingEventsProps } from "@/types/UpcomingEvents";
 
@@ -66,6 +66,18 @@ export const AuthService = ({ children }: ContextProp) => {
   const [members, setMembers] = useState<MembersProps>([]);
   const [modal, setModal] = useState<boolean>(false)
   const [upcomingEvents, setUpcomingEvents] = useState<UpcomingEventsProps>([]);
+  const [userProfileInfo, setUserProfileInfo] = useState<UserProfileProps>({
+    date_of_birth: "",
+    department: "",
+    services: "",
+    favorite_life_qoute: "",
+    twitter_link: " ",
+    insta_link: "",
+    phone_number: "",
+    gender: "",
+    linkedin_link: "",
+    nickname: "",
+  });
 
   let ERROR_MESSAGE = 'Something Went Wrong.'
 
@@ -110,7 +122,7 @@ export const AuthService = ({ children }: ContextProp) => {
         });
       });
     });
-    console.log(mediaUrls);
+    // console.log(mediaUrls);
   }, []);
 
   useEffect(() => {
@@ -121,7 +133,7 @@ export const AuthService = ({ children }: ContextProp) => {
         snapshot.forEach((snap) => {
           const eventObj = { reference: snap.ref, event_details: snap.val() };
           eventsArray.push(eventObj);
-          console.log(snap.ref);
+          // console.log(snap.ref);
         });
       });
       setUpcomingEvents(eventsArray);
@@ -144,11 +156,21 @@ export const AuthService = ({ children }: ContextProp) => {
     setMembers(usersArray);
   }, []);
 
+  useEffect(() => {
+    let profileInfo = getUserProfile();
+    profileInfo
+      .then((value) => {
+        console.log(value)
+        setUserProfileInfo(value as unknown as UserProfileProps);
+      })
+      .catch((err) => console.log(err));
+  }, [user]);
+
   const toggleMenu = () => {
     setShowMenu((prevState) => !prevState);
   };
 
-  const getUserProfile = async (user: User | null) => {
+  const getUserProfile = async () => {
     let profileInfo: ProfileInfoProps = {
       date_of_birth: "",
       department: "",
@@ -165,11 +187,13 @@ export const AuthService = ({ children }: ContextProp) => {
     onValue(reference, (snapshot) => {
       console.log(snapshot.toJSON())
       profileInfo = snapshot.toJSON() as ProfileInfoProps
+      console.log(profileInfo)
       // snapshot.forEach((snap) => {
       //   console.log(snap.toJSON())
       //   // console.log(snap.val())
       // })
     })
+    console.log(profileInfo)
     return profileInfo
       
   };
@@ -396,7 +420,7 @@ export const AuthService = ({ children }: ContextProp) => {
     // Clean up by revoking the object URL
     URL.revokeObjectURL(objectURL);
       
-      console.log(blob)
+      // console.log(blob)
     };
     xhr.open('GET', url);
     xhr.send();
@@ -446,6 +470,8 @@ export const AuthService = ({ children }: ContextProp) => {
         modal,
         setModal,
         downloadPhoto,
+        userProfileInfo,
+        setUserProfileInfo
       }}
     >
       {children}

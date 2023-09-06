@@ -1,5 +1,5 @@
 import { User } from "firebase/auth";
-import { MembersProps } from "./members";
+import { MembersProps, UserProfileProps } from "./members";
 import { UpcomingEventsProps } from "./UpcomingEvents";
 import { DatabaseReference } from "firebase/database";
 
@@ -68,8 +68,10 @@ export type ValueProp = {
   showMenu: boolean;
   toggleMenu: () => void;
   setIsMobile: (value: React.SetStateAction<boolean>) => void;
-  getUserProfile: (user: User | null) => Promise<object>;
+  getUserProfile: () => Promise<object>;
   modal: boolean;
   setModal: (value: React.SetStateAction<boolean>) => void;
   downloadPhoto: (file: any) => void;
+  userProfileInfo: UserProfileProps;
+  setUserProfileInfo: React.Dispatch<React.SetStateAction<UserProfileProps>>;
 };

@@ -1,3 +1,4 @@
+import { type } from "os";
 
 export type MembersProps = {
     username: string;
@@ -26,5 +27,18 @@ export type ProfileInfoProps = {
   linkedin_url: string;
   insta_url: string;
   twitter_url: string;
+  phone_number: string | null;
+};
+
+export type UserProfileProps = {
+  department: string;
+  nickname: string;
+  date_of_birth: string;
+  gender: string;
+  services: string;
+  favorite_life_qoute: string;
+  linkedin_link: string;
+  insta_link: string;
+  twitter_link: string;
   phone_number: string | null;
 };
