@@ -74,4 +74,5 @@ export type ValueProp = {
   downloadPhoto: (file: any) => void;
   userProfileInfo: UserProfileProps;
   setUserProfileInfo: React.Dispatch<React.SetStateAction<UserProfileProps>>;
+  updateUserProfile: (e: any) => void
 };

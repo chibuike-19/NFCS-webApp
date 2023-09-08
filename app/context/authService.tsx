@@ -39,7 +39,11 @@ import {
   updateProfile,
   getAuth,
 } from "firebase/auth";
-import { MembersProps, ProfileInfoProps, UserProfileProps } from "@/types/members";
+import {
+  MembersProps,
+  ProfileInfoProps,
+  UserProfileProps,
+} from "@/types/members";
 import { nanoid } from "nanoid";
 import { UpcomingEventsProps } from "@/types/UpcomingEvents";
 
@@ -54,17 +58,24 @@ export const AuthService = ({ children }: ContextProp) => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [screenSize, setScreenSize] = useState<number>(0);
   const [authPersistence, setAuthPersistence] = useState(false);
-  const [setCurrentUser, cuurentUser] = useState<User | null>(null);
   const userEmailRef = useRef<HTMLInputElement>(null);
   const userPasswordRef = useRef<HTMLInputElement>(null);
   const userNameRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
   const [isReset, setIsReset] = useState<boolean>(false);
   const [mediaUrls, setMediaUrls] = useState<
-    { urls: string; fullpath: string, likes: number, liked: boolean, disliked: boolean, likedBy: string[], showmenu: boolean }[]
+    {
+      urls: string;
+      fullpath: string;
+      likes: number;
+      liked: boolean;
+      disliked: boolean;
+      likedBy: string[];
+      showmenu: boolean;
+    }[]
   >([]);
   const [members, setMembers] = useState<MembersProps>([]);
-  const [modal, setModal] = useState<boolean>(false)
+  const [modal, setModal] = useState<boolean>(false);
   const [upcomingEvents, setUpcomingEvents] = useState<UpcomingEventsProps>([]);
   const [userProfileInfo, setUserProfileInfo] = useState<UserProfileProps>({
     date_of_birth: "",
@@ -79,7 +90,7 @@ export const AuthService = ({ children }: ContextProp) => {
     nickname: "",
   });
 
-  let ERROR_MESSAGE = 'Something Went Wrong.'
+  let ERROR_MESSAGE = "Something Went Wrong.";
 
   useEffect(() => {
     // Grabs current user object on mount of page
@@ -118,7 +129,18 @@ export const AuthService = ({ children }: ContextProp) => {
       res.items.forEach((item) => {
         const fullPath = item.fullPath;
         getDownloadURL(item).then((url) => {
-          setMediaUrls((prev) => [...prev, { urls: url, fullpath: fullPath, likes: 0, liked: false, disliked: false, likedBy: [''], showmenu: false}]);
+          setMediaUrls((prev) => [
+            ...prev,
+            {
+              urls: url,
+              fullpath: fullPath,
+              likes: 0,
+              liked: false,
+              disliked: false,
+              likedBy: [""],
+              showmenu: false,
+            },
+          ]);
         });
       });
     });
@@ -157,46 +179,63 @@ export const AuthService = ({ children }: ContextProp) => {
   }, []);
 
   useEffect(() => {
-    let profileInfo = getUserProfile();
-    profileInfo
+    getUserProfile()
       .then((value) => {
-        console.log(value)
-        setUserProfileInfo(value as unknown as UserProfileProps);
+        console.log(value);
+        if (value != null) {
+          setUserProfileInfo(value);
+        }
       })
       .catch((err) => console.log(err));
-  }, [user]);
+  }, [user?.uid]);
 
   const toggleMenu = () => {
     setShowMenu((prevState) => !prevState);
   };
 
   const getUserProfile = async () => {
-    let profileInfo: ProfileInfoProps = {
+    let profileInfo: UserProfileProps = {
       date_of_birth: "",
       department: "",
       services: "",
-      favorite_life_quote: "",
-      twitter_url: " ",
-      insta_url: "",
+      favorite_life_qoute: "",
+      twitter_link: " ",
+      insta_link: "",
       phone_number: "",
       gender: "",
-      linkedin_url: "",
+      linkedin_link: "",
       nickname: "",
     };
     let reference = dbRef(db, `/users/${user?.uid}`);
-    onValue(reference, (snapshot) => {
-      console.log(snapshot.toJSON())
-      profileInfo = snapshot.toJSON() as ProfileInfoProps
-      console.log(profileInfo)
-      // snapshot.forEach((snap) => {
-      //   console.log(snap.toJSON())
-      //   // console.log(snap.val())
-      // })
-    })
-    console.log(profileInfo)
-    return profileInfo
-      
+    return new Promise<UserProfileProps>((resolve, reject) => {
+      onValue(reference, (snapshot) => {
+        console.log(snapshot.toJSON());
+        profileInfo = snapshot.toJSON() as UserProfileProps;
+        resolve(profileInfo);
+        console.log(profileInfo);
+        // snapshot.forEach((snap) => {
+        //   console.log(snap.toJSON())
+        //   // console.log(snap.val())
+        // })
+      });
+    });
   };
+
+  const updateUserProfile = (e:any) => {
+    e.preventDefault();
+    update(dbRef(db, "users/" + user?.uid), {
+      nickname: userProfileInfo.nickname,
+      favorite_life_quote: userProfileInfo.favorite_life_qoute,
+      date_of_birth: userProfileInfo.date_of_birth,
+      twitter_link: userProfileInfo.twitter_link,
+      linkedin_link: userProfileInfo.linkedin_link,
+      insta_link: userProfileInfo.insta_link,
+      services: userProfileInfo.services,
+      Department: userProfileInfo.department,
+      gender: userProfileInfo.gender,
+      phone_number: userProfileInfo.phone_number
+    });
+  }
 
   const loginWithGoogle = async () => {
     const Provider = new GoogleAuthProvider();
@@ -262,8 +301,8 @@ export const AuthService = ({ children }: ContextProp) => {
         return;
       }
     } catch (error: any) {
-      if(error.message === 'Firebase: Error (auth/network-request-failed).'){
-        ERROR_MESSAGE = 'Network failed, please try again'
+      if (error.message === "Firebase: Error (auth/network-request-failed).") {
+        ERROR_MESSAGE = "Network failed, please try again";
       }
       ToastMessages(ERROR_MESSAGE, true);
       console.log(error.message);
@@ -309,12 +348,10 @@ export const AuthService = ({ children }: ContextProp) => {
   };
 
   const logOut = async () => {
-    try{
+    try {
       await signOut(auth);
-    
-    }catch(err){
-      console.log(err)
-
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -369,8 +406,8 @@ export const AuthService = ({ children }: ContextProp) => {
         likes: 0,
         liked: false,
         disliked: false,
-        likedBy: [''],
-        showmenu: false
+        likedBy: [""],
+        showmenu: false,
       },
     ]);
     console.log("added to media");
@@ -401,36 +438,34 @@ export const AuthService = ({ children }: ContextProp) => {
     const httpsReference = ref(storage, file);
 
     getDownloadURL(httpsReference)
-  .then((url) => {
-    
-    // This can be downloaded directly:
-    const xhr = new XMLHttpRequest();
-    xhr.responseType = 'blob';
-    xhr.onload = (event) => {
-      const blob = xhr.response;
-      // Create a temporary object URL for the blob
-    const objectURL = URL.createObjectURL(blob);
+      .then((url) => {
+        // This can be downloaded directly:
+        const xhr = new XMLHttpRequest();
+        xhr.responseType = "blob";
+        xhr.onload = (event) => {
+          const blob = xhr.response;
+          // Create a temporary object URL for the blob
+          const objectURL = URL.createObjectURL(blob);
 
-    // Create a link and simulate a click to trigger download
-    const link = document.createElement('a');
-    link.href = objectURL;
-    link.download = 'NFCS_image.jpg'; // Set the desired file name
-    link.click();
+          // Create a link and simulate a click to trigger download
+          const link = document.createElement("a");
+          link.href = objectURL;
+          link.download = "NFCS_image.jpg"; // Set the desired file name
+          link.click();
 
-    // Clean up by revoking the object URL
-    URL.revokeObjectURL(objectURL);
-      
-      // console.log(blob)
-    };
-    xhr.open('GET', url);
-    xhr.send();
+          // Clean up by revoking the object URL
+          URL.revokeObjectURL(objectURL);
 
-  })
-  .catch((error) => {
-    // Handle any errors
-    console.log(error)
-  })
-  }
+          // console.log(blob)
+        };
+        xhr.open("GET", url);
+        xhr.send();
+      })
+      .catch((error) => {
+        // Handle any errors
+        console.log(error);
+      });
+  };
 
   return (
     <AuthContext.Provider
@@ -471,7 +506,8 @@ export const AuthService = ({ children }: ContextProp) => {
         setModal,
         downloadPhoto,
         userProfileInfo,
-        setUserProfileInfo
+        setUserProfileInfo,
+        updateUserProfile,
       }}
     >
       {children}

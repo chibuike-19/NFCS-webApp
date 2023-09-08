@@ -1,19 +1,11 @@
 "use client";
 
 import SecondProtectedRoute from "../../component/protectedRoute2";
-import SideMenu from "../../component/sideMenu";
-import { UsersidebarMenuData } from "@/data/sidebaMenuData";
-import { AdminsidebarMenuData } from "@/data/sidebaMenuData";
 import { useAuth } from "../../context/authService";
-import { MdDelete } from "react-icons/md";
 import { useState, useEffect } from "react";
-import Backdrop from "@/app/UI/Backdrop";
-import Card from "@/app/UI/Card";
 import Modal from "@/app/component/modal";
 import MediaContent from "@/app/component/mediaContent";
-import { FcDownload } from "react-icons/fc";
-import { FcLike, FcLikePlaceholder } from "react-icons/fc";
-import Image from "next/image";
+
 
 interface MediaProps {
   children: React.ReactNode;

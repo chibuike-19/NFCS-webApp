@@ -7,12 +7,13 @@ import { usePathname } from "next/navigation";
 import { sidebarItems, sidebarProps } from "@/types/sidebarProps";
 import { useRouter } from "next/navigation";
 import { GrClose } from "react-icons/gr";
+import Button from "./button";
 
 const SideMenu = ({ sidebarMenuData }: sidebarItems) => {
   const path = usePathname();
   const router = useRouter();
   const { toggleMenu, isMobile, showMenu, logOut } = useAuth();
-  console.log(isMobile);
+  // console.log(isMobile);
 
   const SignOut = () => {
     setTimeout(() => logOut(), 0)
@@ -37,7 +38,7 @@ const SideMenu = ({ sidebarMenuData }: sidebarItems) => {
           </span>
         )}
       </div>
-      <div className="px-4 pt-8">
+      <div className="px-4 pt-8 relative">
         {sidebarMenuData?.map((menu, indx) => (
           <Link
             key={indx}
@@ -55,9 +56,13 @@ const SideMenu = ({ sidebarMenuData }: sidebarItems) => {
             </div>
           </Link>
         ))}
-      </div>
-      <div>
-        <button onClick={SignOut}>Log Out</button>
+        <div className="ml-2">
+          <Button
+            value="Log out"
+            onClick={SignOut}
+            extraClassnames="px-12 py-3 bg-[#007BA0] rounded-lg"
+          />
+        </div>
       </div>
     </div>
   );

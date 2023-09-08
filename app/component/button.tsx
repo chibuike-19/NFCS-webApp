@@ -1,9 +1,18 @@
 
 
-const Button = () => {
+type ButtonProps = {
+    value: string;
+    extraClassnames?: string;
+    onClick?: () => void
+}
+const Button = ({value, extraClassnames, onClick}: ButtonProps) => {
 
     return(
-        <div>Button</div>
+        <div>
+            <button onClick={onClick} className={`${extraClassnames} text-white`}>
+                {value}
+            </button>
+        </div>
     )
 }
 

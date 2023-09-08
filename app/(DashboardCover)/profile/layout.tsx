@@ -15,9 +15,9 @@ export default function ProfileLayout({
 
   return (
     <>
-      <div className="mx-[4%] flex mobile:flex-col lg:flex-row border-2 border-black min-h-[22rem]">
-        <div className="basis-[25%] border-r-2 border-r-black">
-          <div className="h-[6rem] border-b-2 border-b-black">
+      <div className="mx-[4%] mb-6 flex mobile:flex-col lg:flex-row border-2 rounded-md border-[#dfdede] bg-white min-h-[22rem]">
+        <div className="basis-[25%] border-r-2 border-r-[#F1F1F1]">
+          <div className="h-[6rem] border-b-2 border-b-[#F1F1F1]">
             <div className="flex items-center gap-2 p-3">
               <div className="rounded-full overflow-hidden h-12 w-12">
                 <img src={user?.photoURL!} alt="User picture" />
@@ -43,7 +43,7 @@ export default function ProfileLayout({
             ))}
           </div>
         </div>
-        <main className="basis-[75%]">{children}</main>
+        <main className="basis-[75%] px-8">{children}</main>
       </div>
     </>
   );
