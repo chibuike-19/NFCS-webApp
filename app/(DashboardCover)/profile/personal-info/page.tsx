@@ -80,7 +80,7 @@ type props = {
   advanced: boolean
 }
 export const BasiInfo = ({advanced}: props) => {
- const {userProfileInfo, user} = useAuth()
+ const {userProfileInfo, user, setModal} = useAuth()
   
   const {nickname, date_of_birth, department, favorite_life_qoute,gender, insta_link, twitter_link, linkedin_link, services, phone_number} = userProfileInfo
 
@@ -124,6 +124,7 @@ export const BasiInfo = ({advanced}: props) => {
         <Button
           value="Update"
           extraClassnames="px-8 py-3 bg-[#007BA0] rounded-lg"
+          onClick={() => setModal(true)}
         />
       </div>
     </div>
@@ -138,67 +139,67 @@ export const UpdateInfo = () => {
   return (
     <Backdrop>
       <Card>
-        <div>
-          <form
-            action=""
-            className="grid grid-cols-1 sm:grid-cols-3"
-            onSubmit={(e) => updateUserProfile(e)}
-          >
-            <ProfileInput
-              label="Nick name"
-              onChange={(e) =>
-                setUserProfileInfo({
-                  ...userProfileInfo,
-                  nickname: e.target.value,
-                })
-              }
-            />
-            <ProfileInput
-              label="Favorite Life Quote"
-              onChange={(e) =>
-                setUserProfileInfo({
-                  ...userProfileInfo,
-                  favorite_life_qoute: e.target.value,
-                })
-              }
-            />
-            <ProfileInput
-              label="Department"
-              onChange={(e) =>
-                setUserProfileInfo({
-                  ...userProfileInfo,
-                  department: e.target.value,
-                })
-              }
-            />
-            <ProfileInput
-              label="Date of Birth"
-              onChange={(e) =>
-                setUserProfileInfo({
-                  ...userProfileInfo,
-                  date_of_birth: e.target.value,
-                })
-              }
-            />
-            <ProfileInput
-              label="Phone Number"
-              onChange={(e) =>
-                setUserProfileInfo({
-                  ...userProfileInfo,
-                  phone_number: e.target.value,
-                })
-              }
-            />
-            <ProfileInput
-              label="Gender"
-              onChange={(e) =>
-                setUserProfileInfo({
-                  ...userProfileInfo,
-                  gender: e.target.value,
-                })
-              }
-            />
-            <Button value="Submit" />
+        <div className="p-4">
+          <form action="" onSubmit={(e) => updateUserProfile(e)}>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+              <ProfileInput
+                label="Nick name"
+                onChange={(e) =>
+                  setUserProfileInfo({
+                    ...userProfileInfo,
+                    nickname: e.target.value,
+                  })
+                }
+              />
+              <ProfileInput
+                label="Favorite Life Quote"
+                onChange={(e) =>
+                  setUserProfileInfo({
+                    ...userProfileInfo,
+                    favorite_life_qoute: e.target.value,
+                  })
+                }
+              />
+              <ProfileInput
+                label="Department"
+                onChange={(e) =>
+                  setUserProfileInfo({
+                    ...userProfileInfo,
+                    department: e.target.value,
+                  })
+                }
+              />
+              <ProfileInput
+                label="Date of Birth"
+                onChange={(e) =>
+                  setUserProfileInfo({
+                    ...userProfileInfo,
+                    date_of_birth: e.target.value,
+                  })
+                }
+              />
+              <ProfileInput
+                label="Phone Number"
+                onChange={(e) =>
+                  setUserProfileInfo({
+                    ...userProfileInfo,
+                    phone_number: e.target.value,
+                  })
+                }
+              />
+              <ProfileInput
+                label="Gender"
+                onChange={(e) =>
+                  setUserProfileInfo({
+                    ...userProfileInfo,
+                    gender: e.target.value,
+                  })
+                }
+              />
+            </div>
+            <div className="flex justify-end mt-4">
+              <Button value="Submit" extraClassnames="px-6 py-4 bg-[#007BA0]" />
+            </div>
           </form>
         </div>
       </Card>

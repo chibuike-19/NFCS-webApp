@@ -14,6 +14,7 @@ export const ProfileInput = ({onChange, label, inputType}: props) => {
         </label>
         <input
           type={inputType ?? 'text'}
+          required
           onChange={onChange}
           className="p-3 max-w-[20rem] border-2 border-[#007BA0]"
         />
