@@ -2,7 +2,7 @@
 
 const LoginActivities = () => {
     return(
-        <div>Activities</div>
+        <div className="grid place-content-center">Coming soon....</div>
     )
 }
 

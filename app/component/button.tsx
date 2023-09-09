@@ -7,13 +7,16 @@ type ButtonProps = {
 }
 const Button = ({value, extraClassnames, onClick}: ButtonProps) => {
 
-    return(
-        <div>
-            <button onClick={onClick} className={`${extraClassnames} text-white`}>
-                {value}
-            </button>
-        </div>
-    )
+    return (
+      <div>
+        <button
+          onClick={onClick}
+          className={`${extraClassnames} text-white bg-[#007BA0]`}
+        >
+          {value}
+        </button>
+      </div>
+    );
 }
 
 export default Button;

@@ -1,7 +1,7 @@
 
 
 const Notifications = () => {
-  return <div>Notifications</div>;
+  return <div className="grid place-content-center h-full">Coming soon.....</div>;
 };
 
 export default Notifications;

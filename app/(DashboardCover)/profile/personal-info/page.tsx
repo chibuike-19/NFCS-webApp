@@ -24,7 +24,7 @@ const PersonalInformation = () => {
   return (
     <div>
       <div>
-        <p className="text-[20px] font-bold pl-4 pt-12">Personal Information</p>
+        <p className="text-[20px] mb-2 font-bold pl-4 pt-12">Personal Information</p>
         {/* <span className="text-gray-600 text-sm pt-4 pl-6">
           {currentStep == 1 ? "Basic Info About you" : "Additional info"}
         </span> */}
@@ -124,7 +124,7 @@ export const BasiInfo = ({advanced}: props) => {
       <div className="flex justify-end my-6">
         <Button
           value="Update"
-          extraClassnames="px-8 py-3 bg-[#007BA0] rounded-lg"
+          extraClassnames="px-8 py-3 rounded-lg"
           onClick={() => setModal(true)}
         />
       </div>
@@ -206,7 +206,7 @@ export const UpdateInfo = ({advanced}: props) => {
               <div className="flex justify-end mt-4">
                 <Button
                   value="Submit"
-                  extraClassnames="px-6 py-4 bg-[#007BA0]"
+                  extraClassnames="px-6 py-4"
                 />
               </div>
             </form>
