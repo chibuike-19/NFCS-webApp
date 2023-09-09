@@ -6,6 +6,7 @@ import Backdrop from "@/app/UI/Backdrop";
 import Button from "@/app/component/button";
 import Card from "@/app/UI/Card";
 import { ProfileInput } from "@/app/component/ProfileInput";
+import {AiOutlineClose} from "react-icons/ai"
 
 const PersonalInformation = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -51,7 +52,7 @@ const PersonalInformation = () => {
           <div>
             {modal ? (
               <>
-                <UpdateInfo />
+                <UpdateInfo advanced={false}/>
               </>
             ) : (
               <BasiInfo advanced={false} />
@@ -61,7 +62,7 @@ const PersonalInformation = () => {
           <div>
             {modal ? (
               <>
-                <UpdateInfo />
+                <UpdateInfo advanced={true} />
               </>
             ) : (
               <BasiInfo advanced={true} />
@@ -131,76 +132,132 @@ export const BasiInfo = ({advanced}: props) => {
   );
 };
 
-export const UpdateInfo = () => {
 
-  const {userProfileInfo, setUserProfileInfo, updateUserProfile} = useAuth()
+export const UpdateInfo = ({advanced}: props) => {
+
+  const {userProfileInfo, setUserProfileInfo, updateUserProfile, setModal} = useAuth()
 
 
   return (
     <Backdrop>
       <Card>
         <div className="p-4">
-          <form action="" onSubmit={(e) => updateUserProfile(e)}>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-              <ProfileInput
-                label="Nick name"
-                onChange={(e) =>
-                  setUserProfileInfo({
-                    ...userProfileInfo,
-                    nickname: e.target.value,
-                  })
-                }
-              />
-              <ProfileInput
-                label="Favorite Life Quote"
-                onChange={(e) =>
-                  setUserProfileInfo({
-                    ...userProfileInfo,
-                    favorite_life_qoute: e.target.value,
-                  })
-                }
-              />
-              <ProfileInput
-                label="Department"
-                onChange={(e) =>
-                  setUserProfileInfo({
-                    ...userProfileInfo,
-                    department: e.target.value,
-                  })
-                }
-              />
-              <ProfileInput
-                label="Date of Birth"
-                onChange={(e) =>
-                  setUserProfileInfo({
-                    ...userProfileInfo,
-                    date_of_birth: e.target.value,
-                  })
-                }
-              />
-              <ProfileInput
-                label="Phone Number"
-                onChange={(e) =>
-                  setUserProfileInfo({
-                    ...userProfileInfo,
-                    phone_number: e.target.value,
-                  })
-                }
-              />
-              <ProfileInput
-                label="Gender"
-                onChange={(e) =>
-                  setUserProfileInfo({
-                    ...userProfileInfo,
-                    gender: e.target.value,
-                  })
-                }
-              />
-            </div>
-            <div className="flex justify-end mt-4">
-              <Button value="Submit" extraClassnames="px-6 py-4 bg-[#007BA0]" />
-            </div>
-          </form>
+          <div className="flex mb-6 justify-end">
+            <AiOutlineClose size={40} onClick={() => setModal(false)} className="cursor-pointer"/>
+          </div>
+          {!advanced ? (
+            <form action="" onSubmit={(e) => updateUserProfile(e)}>
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+                <ProfileInput
+                  label="Nick name"
+                  onChange={(e) =>
+                    setUserProfileInfo({
+                      ...userProfileInfo,
+                      nickname: e.target.value,
+                    })
+                  }
+                />
+                <ProfileInput
+                  label="Favorite Life Quote"
+                  onChange={(e) =>
+                    setUserProfileInfo({
+                      ...userProfileInfo,
+                      favorite_life_qoute: e.target.value,
+                    })
+                  }
+                />
+                <ProfileInput
+                  label="Department"
+                  onChange={(e) =>
+                    setUserProfileInfo({
+                      ...userProfileInfo,
+                      department: e.target.value,
+                    })
+                  }
+                />
+                <ProfileInput
+                  label="Date of Birth"
+                  onChange={(e) =>
+                    setUserProfileInfo({
+                      ...userProfileInfo,
+                      date_of_birth: e.target.value,
+                    })
+                  }
+                />
+                <ProfileInput
+                  label="Phone Number"
+                  onChange={(e) =>
+                    setUserProfileInfo({
+                      ...userProfileInfo,
+                      phone_number: e.target.value,
+                    })
+                  }
+                />
+                <ProfileInput
+                  label="Gender"
+                  onChange={(e) =>
+                    setUserProfileInfo({
+                      ...userProfileInfo,
+                      gender: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div className="flex justify-end mt-4">
+                <Button
+                  value="Submit"
+                  extraClassnames="px-6 py-4 bg-[#007BA0]"
+                />
+              </div>
+            </form>
+          ) : (
+            <form action="" onSubmit={(e) => updateUserProfile(e)}>
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+                <ProfileInput
+                  label="LinkedIn Link"
+                  onChange={(e) =>
+                    setUserProfileInfo({
+                      ...userProfileInfo,
+                      linkedin_link: e.target.value,
+                    })
+                  }
+                />
+                <ProfileInput
+                  label="Twitter Link"
+                  onChange={(e) =>
+                    setUserProfileInfo({
+                      ...userProfileInfo,
+                      twitter_link: e.target.value,
+                    })
+                  }
+                />
+                <ProfileInput
+                  label="Instagram link"
+                  onChange={(e) =>
+                    setUserProfileInfo({
+                      ...userProfileInfo,
+                      insta_link: e.target.value,
+                    })
+                  }
+                />
+                <ProfileInput
+                  label="Services"
+                  onChange={(e) =>
+                    setUserProfileInfo({
+                      ...userProfileInfo,
+                      services: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div className="flex justify-end mt-4">
+                <Button
+                  value="Submit"
+                  extraClassnames="px-6 py-4 bg-[#007BA0]"
+                />
+              </div>
+            </form>
+          )}
         </div>
       </Card>
     </Backdrop>

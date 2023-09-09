@@ -223,18 +223,24 @@ export const AuthService = ({ children }: ContextProp) => {
 
   const updateUserProfile = (e:any) => {
     e.preventDefault();
-    update(dbRef(db, "users/" + user?.uid), {
-      nickname: userProfileInfo.nickname,
-      favorite_life_quote: userProfileInfo.favorite_life_qoute,
-      date_of_birth: userProfileInfo.date_of_birth,
-      twitter_link: userProfileInfo.twitter_link,
-      linkedin_link: userProfileInfo.linkedin_link,
-      insta_link: userProfileInfo.insta_link,
-      services: userProfileInfo.services,
-      Department: userProfileInfo.department,
-      gender: userProfileInfo.gender,
-      phone_number: userProfileInfo.phone_number
-    });
+    try {
+      update(dbRef(db, "users/" + user?.uid), {
+        nickname: userProfileInfo.nickname,
+        favorite_life_quote: userProfileInfo.favorite_life_qoute,
+        date_of_birth: userProfileInfo.date_of_birth,
+        twitter_link: userProfileInfo.twitter_link,
+        linkedin_link: userProfileInfo.linkedin_link,
+        insta_link: userProfileInfo.insta_link,
+        services: userProfileInfo.services,
+        department: userProfileInfo.department,
+        gender: userProfileInfo.gender,
+        phone_number: userProfileInfo.phone_number,
+      });
+    } catch (error: any) {
+      ToastMessages(error.message as unknown as string, true)
+    }
+    
+    setModal(false)
   }
 
   const loginWithGoogle = async () => {
