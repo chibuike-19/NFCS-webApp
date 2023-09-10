@@ -36,7 +36,7 @@ const Card: React.FC<CardProps> = ({ children, className = '' }) => {
     return (
       <div
         ref={modalRef}
-        className={`${className} flex flex-col sm:my-0 my-6 sm:overflow-hidden overflow-y-scroll mx-0 sm:mx-5 bg-white p-2 py-10 rounded-3xl relative`}
+        className={`${className} flex flex-col sm:my-0 mt-[24rem] mb-6 sm:overflow-hidden overflow-y-scroll mx-0 sm:mx-5 bg-white p-2 py-10 rounded-3xl relative`}
       >
         {children}
       </div>

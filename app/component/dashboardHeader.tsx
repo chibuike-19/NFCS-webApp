@@ -9,7 +9,7 @@ import defaultImage from "./defaultImage"
 const DashboardHeader = () => {
     const {user, toggleMenu, isMobile} = useAuth();
     return (
-      <div className="w-full py-12 px-8 flex justify-between items-center">
+      <div className="w-full py-12 px-2 sm:px-8 flex justify-between items-center">
         <div className="flex items-center gap-4">
           {isMobile && (
             <span onClick={toggleMenu}>

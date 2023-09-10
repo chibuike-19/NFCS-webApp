@@ -55,7 +55,7 @@ export default function ProfileLayout({
             ))}
           </div>
         </div>
-        <main className="basis-[75%] relative ">
+        <main className={`basis-[75%] ${isMobile && showProfileMenu && "relative"} `}>
           {isMobile && showProfileMenu && (
             <div className="bg-[#F1F1F1] w-[100%] absolute mx-1 transform duration-700 ease-in z-50 px-6 py-3">
               {ProfileMenu.map((menu, indx) => (
