@@ -26,7 +26,7 @@ export default function ProfileLayout({
           >
             <div className="flex items-center gap-2 p-3">
               <div className="rounded-full overflow-hidden h-12 w-12">
-                <img src={user?.photoURL!} alt="User picture" />
+                <img src={user?.photoURL!} alt="User picture" className="object-cover"/>
               </div>
               <div>
                 <p className="font-bold text-2xl">{user?.displayName}</p>

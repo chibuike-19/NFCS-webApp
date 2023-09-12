@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useAuth } from "../../context/authService";
 import SecondProtectedRoute from "../../component/protectedRoute2";
 import defaultImage from "@/app/component/defaultImage";
+import { MembersProps } from "@/types/members";
 
 const Members = () => {
   const [query, setQuery] = useState("");
@@ -13,27 +14,30 @@ const Members = () => {
 
   const handleSearch = () => {
     let searchQuery = query.toLowerCase();
-    let filteredResult;
+    let filteredResult: MembersProps;
 
     switch (queryBy) {
       case "department":
         filteredResult = members.filter((member) => {
           if (member.department) {
-            member.department.toLowerCase().includes(searchQuery);
+            return member.department.toLowerCase().includes(searchQuery);
           }
         });
         break;
       case "name":
+        // console.log(query, queryBy);
         filteredResult = members.filter((member) => {
           if (member.nickname) {
-            member.nickname.toLowerCase().includes(searchQuery);
+            // console.log(member.nickname, searchQuery)
+            return member.nickname.toLowerCase().includes(searchQuery);
+            // console.log(filteredResult);
           }
         });
         break;
       case "services":
         filteredResult = members.filter((member) => {
           if (member.services) {
-            member.services.toLowerCase().includes(searchQuery);
+            return member.services.toLowerCase().includes(searchQuery);
           }
         });
         break;
@@ -41,7 +45,6 @@ const Members = () => {
         filteredResult = members;
         break;
     }
-    console.log(query, queryBy)
     console.log(filteredResult)
     setMembers(filteredResult);
   };
@@ -60,10 +63,14 @@ const Members = () => {
           <option value="department">department</option>
           <option value="services">services</option>
         </select>
-        <input type="text" value={query} onChange={(e) => {
-          setQuery(e.target.value);
-          handleSearch()
-        }}/>
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            handleSearch();
+          }}
+        />
       </div>
 
       {members?.map((member, indx) => (

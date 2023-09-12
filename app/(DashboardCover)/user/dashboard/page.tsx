@@ -18,9 +18,8 @@ const UserDashboard = () => {
   const [photoURL, setPhotoUrl] = useState<string>(
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
   );
-  const [loading, setLoading] = useState<boolean>(false);
 
-  SecondProtectedRoute();
+  // SecondProtectedRoute();
 
   useEffect(() => {
     console.log(user);
@@ -30,45 +29,14 @@ const UserDashboard = () => {
   }, [user, user?.photoURL]);
 
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setPhoto(e.target.files[0]);
-    }
-  };
 
-  const uploadPhoto = async (event: FormEvent) => {
-    event.preventDefault();
-    if (photo === null) return;
 
-    await updateUserProfilePicture(photo, user, setLoading);
-    console.log("done");
-    update(ref(db, "users/" + user?.uid), {
-      profile_url: user?.photoURL,
-    });
-    setPhoto(null);
-  };
+ 
 
   return (
     <div className="">
       
-        <form onSubmit={uploadPhoto}>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleChange}
-            ref={inputRef}
-          />
-          <div className="w-40 h-40 bg-red-500 rounded-full overflow-hidden mt-5">
-            <img src={photoURL ?? defaultImage} alt="profile" className="object-cover h-full w-full rounded-full" />
-          </div>
-          {loading && <p>Loading...</p>}
-          <button
-            type="submit"
-            className="bg-[#56BCFB] text-white p-3 m-5 rounded-xl"
-          >
-            Upload Photo
-          </button>
-        </form>
+        
         
         <h1>UPCOMING EVENTS</h1>
         <div className="grid grid-cols-2 gap-4 mb-6">

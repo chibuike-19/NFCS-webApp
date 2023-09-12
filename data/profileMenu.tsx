@@ -1,11 +1,18 @@
-import {HiOutlineLockClosed} from 'react-icons/hi'
-import {IoNotificationsOutline} from 'react-icons/io5'
-import {LuActivity} from 'react-icons/lu'
-import {GoPerson} from 'react-icons/go'
+import { HiOutlineLockClosed } from "react-icons/hi";
+import { IoNotificationsOutline } from "react-icons/io5";
+import { LuActivity } from "react-icons/lu";
+import { GoPerson } from "react-icons/go";
+import { CgProfile } from "react-icons/cg";
+import {TfiInfoAlt} from "react-icons/tfi"
 
 export const ProfileMenu = [
   {
-    icon: <GoPerson />,
+    icon: <CgProfile />,
+    item: "Profile settings",
+    link: "/profile",
+  },
+  {
+    icon: <TfiInfoAlt />,
     item: "Personal Information",
     link: "/profile/personal-info",
   },
@@ -14,11 +21,7 @@ export const ProfileMenu = [
     item: "Notifications",
     link: "/profile/notifications",
   },
-  {
-    icon: <LuActivity />,
-    item: "Account Activities",
-    link: "/profile/activities",
-  },
+
   {
     icon: <HiOutlineLockClosed />,
     item: "Security Settings",

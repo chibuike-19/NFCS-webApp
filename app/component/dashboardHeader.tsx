@@ -13,7 +13,7 @@ const DashboardHeader = () => {
         <div className="flex items-center gap-4">
           {isMobile && (
             <span onClick={toggleMenu}>
-              <AiOutlineMenu size={22} />
+              <AiOutlineMenu size={25} />
             </span>
           )}
           <p className="text-lg font-semibold">Hi, {user?.displayName}</p>

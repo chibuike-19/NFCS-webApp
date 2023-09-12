@@ -1,12 +1,12 @@
-import DashboardHeader from "@/app/component/dashboardHeader";
-import SideMenu from "@/app/component/sideMenu"
-import { AdminsidebarMenuData } from "@/data/sidebaMenuData";
+
+import Image from "next/image";
+import GameImage from "../../../../public/imgs/games.png"
 
 
 const Games = () => {
     return (
-      <div>
-        Hello
+      <div className="grid place-content-center">
+        <Image src={GameImage} alt="GamePad Image"/>
       </div>
     );
 }
