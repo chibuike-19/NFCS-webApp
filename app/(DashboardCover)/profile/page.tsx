@@ -13,6 +13,7 @@ import {
 
 import { useState, useRef } from "react";
 import Button from "@/app/component/button";
+import {FaCloudUploadAlt} from "react-icons/fa"
 
 
 const Profile = () => {
@@ -57,15 +58,19 @@ const Profile = () => {
           <p className="text-[18px]">Update Profile Photo</p>
           <p className="text-xs text-gray-500">Edit current profile photo</p>
         </div>
-        <div className="relative sm:ml-4">
-          <input
-            type="file"
-            className=""
-            accept="image/*"
-            onChange={handleChange}
-            ref={inputRef}
-          />
-          <button className="absolute -left-3 -top-2 p-3 text-white bg-[#007BA0]">Select Photo</button>
+        <div className="sm:ml-4">
+          <label className="border-2 cursor-pointer border-[#007BA0] hover:bg-white w-[10rem] py-3 flex gap-[.5em] justify-center items-center hover:text-[#007BA0] text-white hover:p-[1em] transition-all ease-in-out duration-300 rounded-[5px] mt-[1em] md:mt-0 text-[.8rem] bg-[#007BA0]">
+            Upload Photo
+            <FaCloudUploadAlt size={25} />
+            <input
+              type="file"
+              className=""
+              hidden
+              accept="image/*"
+              onChange={handleChange}
+              ref={inputRef}
+            />
+          </label>
         </div>
         <form className="relative" onSubmit={uploadPhoto}>
           <Button

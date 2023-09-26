@@ -3,6 +3,7 @@ import {MdOutlinePermMedia} from 'react-icons/md'
 import {IoGameControllerOutline} from 'react-icons/io5'
 import {MdOutlinePeople} from 'react-icons/md'
 import {MdOutlineHowToVote} from 'react-icons/md'
+import { MdSettings } from 'react-icons/md'
 
 export const AdminsidebarMenuData = [
   { icon: <BiHomeAlt size={25} />, item: "Home", link: "/admin/dashboard" },
@@ -18,6 +19,11 @@ export const AdminsidebarMenuData = [
     item: "Fun & Games",
     link: "/admin/games",
   },
+  {
+    icon: <MdSettings size={25}/>,
+    item: "Profile Settings",
+    link: "/profile"
+  }
 ];
 
 export const UsersidebarMenuData = [
@@ -33,5 +39,10 @@ export const UsersidebarMenuData = [
     icon: <IoGameControllerOutline size={25} />,
     item: "Fun & Games",
     link: "/user/games",
+  },
+  {
+    icon: <MdSettings size={25} />,
+    item: "Profile Settings",
+    link: "/profile",
   },
 ];

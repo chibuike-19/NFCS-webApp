@@ -56,11 +56,11 @@ const SideMenu = ({ sidebarMenuData }: sidebarItems) => {
             </div>
           </Link>
         ))}
-        <div className="ml-2">
+        <div className="ml-2 absolute top-[(50vh - 100px)]">
           <Button
             value="Log out"
             onClick={SignOut}
-            extraClassnames="px-12 py-3 bg-[#007BA0] rounded-lg"
+            extraClassnames="px-12 py-3 bg-[#007BA0] rounded-lg hover:text-[#007BA0] hover:bg-white border-2 hover:border-[#007BA0] duration-700 ease-in-out transition-all"
           />
         </div>
       </div>
