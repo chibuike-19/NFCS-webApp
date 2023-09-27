@@ -49,11 +49,11 @@ const AdminDashboard = () => {
     }
   }, [user, user?.photoURL]);
   // Assign admin role to a user
-  const addAdmin = async (data: FormData) => {
-    const email = data.get("email")?.valueOf();
-    if (typeof email !== "string") return;
-    // const response = await grantModerator(email, user)
-  };
+  // const addAdmin = async (data: FormData) => {
+  //   const email = data.get("email")?.valueOf();
+  //   if (typeof email !== "string") return;
+  //   // const response = await grantModerator(email, user)
+  // };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -136,7 +136,7 @@ const AdminDashboard = () => {
         </form>
         <img src={user?.photoURL!} alt="user photo" width={20} height={20} />
         <h1>Add new Admin</h1>
-        <form action={addAdmin}>
+        <form>
           <label htmlFor="">Enter Email</label>
           <input type="email" name="email" id="" />
           <input type="submit" />

@@ -14,41 +14,12 @@ interface MediaProps {
 const Media: React.FC<MediaProps> = ({}) => {
   const { mediaUrls, deletePhoto, isAdmin, modal, setModal, downloadPhoto } =
     useAuth();
-  const [confirmDelete, setConfirmDelete] = useState(false);
   const [imagesNum, setImagesNum] = useState(0);
-  const [fileToDelete, setFileToDelete] = useState<any>(null);
-  SecondProtectedRoute();
-
-  useEffect(() => {
-    //If true, carry out the function else return
-    if (!confirmDelete) return;
-
-    deletePhoto(fileToDelete);
-
-    setConfirmDelete(false);
-    console.log("deleted");
-  }, [confirmDelete]);
+  // SecondProtectedRoute();
 
   useEffect(() => {
     setImagesNum(mediaUrls.length)
   }, [mediaUrls])
-
-  const handleDeletePhoto = (file: any) => {
-    //Open modal
-    setModal(true);
-
-    setFileToDelete(file);
-  };
-
-  if (modal) {
-    return (
-      <Modal
-        onConfirm={setConfirmDelete}
-        mainText="Are you sure that you want to delete this Picture?"
-      />
-    );
-  }
-
 
   return (
     <div className="">
@@ -67,7 +38,7 @@ const Media: React.FC<MediaProps> = ({}) => {
         </div>
         <div>
           {isAdmin && (
-            <button className="bg-[#007BA0] rounded-md py-4 px-6 text-white">
+            <button className="bg-[#007BA0] rounded-md py-2 md:py-4 md:px-6 px-4 text-white">
               Upload Photo
             </button>
           )}
